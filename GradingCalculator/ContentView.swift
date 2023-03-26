@@ -8,19 +8,70 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var showAddCourse = false
+    @State var courses: [Course]
+    var didUpdate: (([Course]) -> Void)?
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(courses, id: \.self) { course in
+                    VStack(alignment: .leading) {
+                        NavigationLink {
+                            CalculateGrade(course: course)
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(course.name)
+                                Text("\(course.semester) \(String(course.year))")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                }
+                .onDelete { indices in
+                    self.courses.remove(atOffsets: indices)
+                }
+                .onMove { indices, newOffset in
+                    self.courses.move(fromOffsets: indices, toOffset: newOffset)
+                }
+            }
+            .listStyle(.insetGrouped)
+            .navigationBarTitle("Courses")
+            .navigationBarItems(trailing: EditButton())
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showAddCourse.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
-        .padding()
+        .sheet(isPresented: $showAddCourse, onDismiss: {
+            retrieveStoredData()
+        }) {
+            AddCourse(courses: courses)
+        }
+        .onAppear {
+            retrieveStoredData()
+        }
+    }
+    
+    func retrieveStoredData() {
+        if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
+            if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
+                self.courses = coursesData
+                print(self.courses)
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), Course(name: "Physics 101", semester: "Fall", year: 2024, grades: [Grade(name: "Exam 2", grade: 75, weight: 55)])])
     }
 }
