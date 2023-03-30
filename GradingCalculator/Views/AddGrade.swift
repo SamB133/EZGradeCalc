@@ -24,11 +24,11 @@ struct AddGrade: View {
                     TextField("Grade Title", text: $title)
                 }
                 Section {
-                    TextField("Grade", text: $grade)
+                    TextField("Grade (%)", text: $grade)
                         .keyboardType(.numberPad)
                 }
                 Section {
-                    TextField("Weight", text: $weight)
+                    TextField("Weight (%)", text: $weight)
                         .keyboardType(.numberPad)
                 }
                 Section {
@@ -75,8 +75,8 @@ struct AddGrade: View {
     }
 }
 
-//struct AddGrade_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), Course(name: "Physics 101", semester: "Fall", year: 2024, grades: [Grade(name: "Exam 2", grade: 75, weight: 55)])])
-//    }
-//}
+struct AddGrade_Previews: PreviewProvider {
+    static var previews: some View {
+        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]))
+    }
+}

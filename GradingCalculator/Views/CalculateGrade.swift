@@ -21,6 +21,17 @@ struct CalculateGrade: View {
     var body: some View {
         NavigationStack {
             List {
+                HStack {
+                    Text("Title")
+                        .font(.system(size: 12))
+                        .padding(.leading, 10)
+                    Spacer()
+                    Text("Grade(%)")
+                        .font(.system(size: 12))
+                    Text("Weight(%)")
+                        .font(.system(size: 12))
+                        .padding(.trailing, 20)
+                }
                 ForEach (course.grades, id: \.self) { grade in
                     HStack {
                         Text(grade.name)
