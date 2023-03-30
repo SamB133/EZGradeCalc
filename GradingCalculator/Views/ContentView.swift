@@ -32,9 +32,11 @@ struct ContentView: View {
                 }
                 .onDelete { indices in
                     self.courses.remove(atOffsets: indices)
+                    save(courses)
                 }
                 .onMove { indices, newOffset in
                     self.courses.move(fromOffsets: indices, toOffset: newOffset)
+                    save(courses)
                 }
             }
             .listStyle(.insetGrouped)
@@ -64,9 +66,16 @@ struct ContentView: View {
         if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
             if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
                 self.courses = coursesData
-                print(self.courses)
             }
         }
+    }
+    
+    func save(_ courses: [Course]) {
+        do {
+            let data = try JSONEncoder().encode(courses)
+            UserDefaults.standard.set(data, forKey: "courses")
+        }
+        catch {}
     }
 }
 

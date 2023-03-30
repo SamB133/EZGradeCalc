@@ -16,6 +16,7 @@ struct AddCourse: View {
     @State private var selectedSemester = ""
     @State private var selectedYear: Int = Date().addYear()
     @State private var yearsCount = 0
+    @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -42,7 +43,7 @@ struct AddCourse: View {
                 }
                 Section {
                     Button("Add Course") {
-                        if title != "" && selectedSemester != "" {
+                        if !title.isEmpty && !selectedSemester.isEmpty {
                             let course = Course(name: title, semester: selectedSemester, year: selectedYear, grades: [])
                             courses.append(course)
                             do {
@@ -50,10 +51,15 @@ struct AddCourse: View {
                                 UserDefaults.standard.set(data, forKey: "courses")
                             }
                             catch {}
+                            dismiss()
+                        } else {
+                            showAlert.toggle()
                         }
-                        dismiss()
                     }
                     .frame(maxWidth: .infinity)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
+                    }
                 }
             }
             .navigationBarTitle(Text("Add Course"))
