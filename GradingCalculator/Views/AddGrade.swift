@@ -38,9 +38,9 @@ struct AddGrade: View {
                             do {
                                 let grade = Grade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0)
                                 var courseIndex = 0
-                                for j in 0..<courses.count {
-                                    if course.name == courses[j].name {
-                                        courseIndex = j
+                                for i in 0..<courses.count {
+                                    if course.name == courses[i].name {
+                                        courseIndex = i
                                     }
                                 }
                                 courses[courseIndex].grades.append(grade)

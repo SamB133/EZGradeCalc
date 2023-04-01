@@ -32,13 +32,20 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
+                // TODO: Have the grades sync properly when deleted or moved
+                // TODO: make the retrieveStoredData() and MAYBE save() (I think there are multiple variations of save()) global in their own file
                 ForEach (course.grades, id: \.self) { grade in
-                    HStack {
-                        Text(grade.name)
-                        Spacer()
-                        Text(String(grade.grade))
-                            .padding(.trailing, 20)
-                        Text(String(grade.weight))
+                    NavigationLink {
+                        EditGrade(courses: courses, course: course, currentGrade: grade)
+                    } label: {
+                        HStack {
+                            Text(grade.name)
+                            Spacer()
+                            Text(String(grade.grade))
+                                .padding(.trailing, 23)
+                            Text(String(grade.weight))
+                                .padding(.trailing, 13)
+                        }
                     }
                 }
                 .onDelete { indices in

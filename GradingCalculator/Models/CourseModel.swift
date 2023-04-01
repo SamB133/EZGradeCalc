@@ -22,7 +22,7 @@ struct Course: Identifiable, Hashable, Codable {
     }
 }
 
-struct Grade: Identifiable, Hashable, Codable {
+struct Grade: Identifiable, Hashable, Codable, Equatable {
     var id: UUID
     var name: String
     var grade: Double
@@ -32,5 +32,8 @@ struct Grade: Identifiable, Hashable, Codable {
         self.name = name
         self.grade = grade
         self.weight = weight
+    }
+    static func == (lhs: Grade, rhs: Grade) -> Bool {
+        lhs.id == rhs.id
     }
 }
