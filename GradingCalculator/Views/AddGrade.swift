@@ -14,8 +14,10 @@ struct AddGrade: View {
     @State var title = ""
     @State var grade = ""
     @State var weight = ""
+    @State var grades:[Grade]
     @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm: GradeVM
     
     var body: some View {
         NavigationStack {
@@ -35,20 +37,15 @@ struct AddGrade: View {
                     Button("Add Grade") {
                         retrieveStoredData()
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
-                            do {
+                        
                                 let grade = Grade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0)
-                                var courseIndex = 0
-                                for i in 0..<courses.count {
-                                    if course.name == courses[i].name {
-                                        courseIndex = i
-                                    }
-                                }
-                                courses[courseIndex].grades.append(grade)
-                                let data = try JSONEncoder().encode(self.courses)
-                                UserDefaults.standard.set(data, forKey: "courses")
+                                vm.addGrade(courseName: course.name, grade: grade)
+                                grades = [grade]
+                                course.grades = grades
+                                vm.saveCourse()
                                 dismiss()
-                            }
-                            catch {}
+                            
+                            
                         } else {
                             showAlert.toggle()
                         }
@@ -65,6 +62,8 @@ struct AddGrade: View {
             })
         }
     }
+   
+ 
     
     func retrieveStoredData() {
         if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
@@ -77,6 +76,6 @@ struct AddGrade: View {
 
 struct AddGrade_Previews: PreviewProvider {
     static var previews: some View {
-        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]))
+        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), grades: [Grade(name: "newGrade", grade: 99, weight: 40)], vm: GradeVM())
     }
 }

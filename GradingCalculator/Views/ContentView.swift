@@ -11,15 +11,17 @@ struct ContentView: View {
     
     @State var showAddCourse = false
     @State var courses: [Course]
+    @State var grades: [Grade] = []
     var didUpdate: (([Course]) -> Void)?
+    @StateObject var gradeVM = GradeVM()
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(courses, id: \.self) { course in
+                ForEach(gradeVM.courses, id: \.self) { course in
                     VStack(alignment: .leading) {
                         NavigationLink {
-                            CalculateGrade(course: course)
+                            CalculateGrade(course: course, gradeArr: course.grades, vm: gradeVM)
                         } label: {
                             VStack(alignment: .leading) {
                                 Text(course.name)
@@ -31,12 +33,12 @@ struct ContentView: View {
                     }
                 }
                 .onDelete { indices in
-                    self.courses.remove(atOffsets: indices)
-                    save(courses)
+                    gradeVM.courses.remove(atOffsets: indices)
+                    gradeVM.saveCourse()
                 }
                 .onMove { indices, newOffset in
-                    self.courses.move(fromOffsets: indices, toOffset: newOffset)
-                    save(courses)
+                    gradeVM.courses.move(fromOffsets: indices, toOffset: newOffset)
+                    gradeVM.saveCourse()
                 }
             }
             .listStyle(.insetGrouped)
@@ -53,29 +55,25 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showAddCourse, onDismiss: {
-            retrieveStoredData()
+           _ = retrieveStoredData()
+       
         }) {
-            AddCourse(courses: courses)
+            AddCourse(courses: gradeVM.courses, vm: gradeVM)
+            
         }
         .onAppear {
-            retrieveStoredData()
+            _ = retrieveStoredData()
+           
         }
+       
     }
     
-    func retrieveStoredData() {
-        if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
-            if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
-                self.courses = coursesData
-            }
-        }
+    func retrieveStoredData() -> [Course]{
+        return gradeVM.retrieveCourse()
     }
     
     func save(_ courses: [Course]) {
-        do {
-            let data = try JSONEncoder().encode(courses)
-            UserDefaults.standard.set(data, forKey: "courses")
-        }
-        catch {}
+        gradeVM.saveCourse()
     }
 }
 

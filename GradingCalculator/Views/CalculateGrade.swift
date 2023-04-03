@@ -11,12 +11,15 @@ struct CalculateGrade: View {
     
     @State var courses: [Course] = []
     @State var course: Course
+    @State var gradeArr: [Grade]
     @State var grade = ""
     @State var weight = ""
     @State var average = ""
     @State var showAddCourse = false
     @State var isHidden = true
     @State var addGrade = false
+    @State var courseIndex = 0
+    @StateObject var vm: GradeVM
     
     var body: some View {
         NavigationStack {
@@ -32,11 +35,9 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                // TODO: Have the grades sync properly when deleted or moved
-                // TODO: make the retrieveStoredData() and MAYBE save() (I think there are multiple variations of save()) global in their own file
-                ForEach (course.grades, id: \.self) { grade in
+                ForEach (vm.courses[courseIndex].grades, id: \.self) { grade in
                     NavigationLink {
-                        EditGrade(courses: courses, course: course, currentGrade: grade)
+                        EditGrade(courses: courses, course: course, currentGrade: grade, vm: vm)
                     } label: {
                         HStack {
                             Text(grade.name)
@@ -49,12 +50,13 @@ struct CalculateGrade: View {
                     }
                 }
                 .onDelete { indices in
-                    self.course.grades.remove(atOffsets: indices)
-                    save(courses)
+                    vm.courses[courseIndex].grades.remove(atOffsets: indices)
+                    vm.saveCourse()
                 }
                 .onMove { indices, newOffset in
-                    self.course.grades.move(fromOffsets: indices, toOffset: newOffset)
-                    save(courses)
+                    gradeArr.move(fromOffsets: indices, toOffset: newOffset)
+                    vm.courses[courseIndex].grades = gradeArr
+                    vm.saveCourse()
                 }
                 Section {
                     Button("Calculate Grade") {
@@ -89,24 +91,13 @@ struct CalculateGrade: View {
             .sheet(isPresented: $addGrade, onDismiss: {
                 retrieveStoredData()
             }) {
-                AddGrade(courses: self.courses, course: self.course)
+                AddGrade(courses: self.courses, course: self.course, grades: gradeArr, vm: vm)
             }
         }
     }
     
     func retrieveStoredData() {
-        if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
-            if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
-                self.courses = coursesData
-                var courseIndex = 0
-                for j in 0..<courses.count {
-                    if course.name == courses[j].name {
-                        courseIndex = j
-                    }
-                }
-                self.course = self.courses[courseIndex]
-            }
-        }
+        self.courses = vm.retrieveCourse()
     }
     
     func save(_ courses: [Course]) {
@@ -130,8 +121,8 @@ struct CalculateGrade: View {
     }
 }
 
-struct CalculateGrade_Previews: PreviewProvider {
-    static var previews: some View {
-        CalculateGrade(course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]))
-    }
-}
+//struct CalculateGrade_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CalculateGrade(course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), gradeArr: [Grade(name: "Exam 1", grade: 82, weight: 45)], vm: GradVM())
+//    }
+//}

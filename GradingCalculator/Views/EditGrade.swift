@@ -20,8 +20,8 @@ struct EditGrade: View {
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
-    @State var gradeVariation: gradeType?
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm: GradeVM
     
     var body: some View {
         NavigationStack {
@@ -48,39 +48,26 @@ struct EditGrade: View {
                 }
                 Section {
                     Button("Submit Changes") {
-                        retrieveStoredData()
+                        _ = vm.retrieveCourse()
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
-                            do {
                                 var grade: Grade = self.currentGrade
-                                var courseIndex = 0
-                                for i in 0..<courses.count {
-                                    if course.name == courses[i].name {
-                                        courseIndex = i
-                                    }
-                                }
-                                var gradeIndex = 0
-                                let grades = courses[courseIndex].grades
-                                for i in 0..<grades.count - 1 {
-                                    if grade.id == self.currentGrade.id {
-                                        gradeIndex = i
-                                    }
-                                }
+                                let courseIndex = vm.getCourseIndex(courseName: course.name)
+                                let gradeIndex = vm.getGradeIndexForCourseIndex(courseIndex: courseIndex, grade: grade, currentGrade: currentGrade) + 1
                                 if !title.isEmpty {
-                                    courses[courseIndex].grades[gradeIndex].name = title
+                                    vm.courses[courseIndex].grades[gradeIndex].name = title
                                 }
                                 if !self.grade.isEmpty {
-                                    courses[courseIndex].grades[gradeIndex].grade = Double(self.grade) ?? 0.0
+                                    vm.courses[courseIndex].grades[gradeIndex].grade = Double(self.grade) ?? 0.0
                                 }
                                 if !weight.isEmpty {
-                                    courses[courseIndex].grades[gradeIndex].weight = Double(self.weight) ?? 0.0
+                                    vm.courses[courseIndex].grades[gradeIndex].weight = Double(self.weight) ?? 0.0
                                 }
                                 grade = Grade(name: (title.isEmpty ? currentGrade.name : title), grade: Double(self.grade) ?? currentGrade.grade, weight: Double(self.weight) ?? currentGrade.weight)
-                                courses[courseIndex].grades[gradeIndex] = grade
-                                let data = try JSONEncoder().encode(self.courses)
-                                UserDefaults.standard.set(data, forKey: "courses")
+                            vm.courses[courseIndex].grades[gradeIndex] = grade
+                                vm.courses[courseIndex].grades[gradeIndex] = grade
+                                vm.saveCourse()
                                 dismiss()
-                            }
-                            catch {}
+                          
                         } else {
                             showAlert.toggle()
                         }
@@ -118,19 +105,11 @@ struct EditGrade: View {
         grade.weight = courseGradesIndex[gradeIndex].weight
         return grade
     }
-    
-    func retrieveStoredData() {
-        if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
-            if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
-                self.courses = coursesData
-            }
-        }
-    }
 }
 
 struct EditGrade_Previews: PreviewProvider {
     static var previews: some View {
-        EditGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), currentGrade: Grade(name: "Exam 1", grade: 90, weight: 25))
+        EditGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), currentGrade: Grade(name: "Exam 1", grade: 90, weight: 25), vm: GradeVM())
     }
 }
 

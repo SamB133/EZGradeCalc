@@ -11,7 +11,12 @@ import SwiftUI
 struct GradingCalculatorApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(courses: [])
+            TabView {
+                ContentView(courses: [])
+                    .tabItem {
+                        Label("Grading Calculator", systemImage: "studentdesk")
+                    }
+            }
         }
     }
 }

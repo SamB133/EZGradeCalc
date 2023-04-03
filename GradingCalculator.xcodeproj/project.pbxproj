@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9C4708B729D54D000022F498 /* AddGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4708B629D54D000022F498 /* AddGrade.swift */; };
+		9C48DAAA29DA3DB700F11D42 /* CalculateGPA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */; };
+		9C48DAAC29DA3E7D00F11D42 /* GPAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAAB29DA3E7D00F11D42 /* GPAModel.swift */; };
+		9C48DAAE29DA407600F11D42 /* GPAVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAAD29DA407600F11D42 /* GPAVM.swift */; };
 		9C969E6029CC06F5008DA9B9 /* GradingCalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C969E5F29CC06F5008DA9B9 /* GradingCalculatorApp.swift */; };
 		9C969E6229CC06F5008DA9B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C969E6129CC06F5008DA9B9 /* ContentView.swift */; };
 		9C969E6429CC06F7008DA9B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C969E6329CC06F7008DA9B9 /* Assets.xcassets */; };
@@ -16,10 +19,14 @@
 		9CE7CDF929CD5F0500EAD968 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE7CDF829CD5F0500EAD968 /* CourseModel.swift */; };
 		9CE7CDFB29CD65A500EAD968 /* CalculateGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE7CDFA29CD65A500EAD968 /* CalculateGrade.swift */; };
 		9CF1857B29CC1710007B5B4F /* AddCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF1857A29CC1710007B5B4F /* AddCourse.swift */; };
+		A2DD2CA729D8EFED00FE7F20 /* GradeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DD2CA629D8EFED00FE7F20 /* GradeVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9C4708B629D54D000022F498 /* AddGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGrade.swift; sourceTree = "<group>"; };
+		9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateGPA.swift; sourceTree = "<group>"; };
+		9C48DAAB29DA3E7D00F11D42 /* GPAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPAModel.swift; sourceTree = "<group>"; };
+		9C48DAAD29DA407600F11D42 /* GPAVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPAVM.swift; sourceTree = "<group>"; };
 		9C969E5C29CC06F5008DA9B9 /* GradingCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GradingCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C969E5F29CC06F5008DA9B9 /* GradingCalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradingCalculatorApp.swift; sourceTree = "<group>"; };
 		9C969E6129CC06F5008DA9B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -29,6 +36,7 @@
 		9CE7CDF829CD5F0500EAD968 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		9CE7CDFA29CD65A500EAD968 /* CalculateGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateGrade.swift; sourceTree = "<group>"; };
 		9CF1857A29CC1710007B5B4F /* AddCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourse.swift; sourceTree = "<group>"; };
+		A2DD2CA629D8EFED00FE7F20 /* GradeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,9 +56,12 @@
 				9CF1857A29CC1710007B5B4F /* AddCourse.swift */,
 				9C4708B629D54D000022F498 /* AddGrade.swift */,
 				9C969E5F29CC06F5008DA9B9 /* GradingCalculatorApp.swift */,
+				9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */,
 				9C969E6129CC06F5008DA9B9 /* ContentView.swift */,
 				9CE7CDFA29CD65A500EAD968 /* CalculateGrade.swift */,
 				9CAD8D7229D62766003B52DC /* EditGrade.swift */,
+				A2DD2CA629D8EFED00FE7F20 /* GradeVM.swift */,
+				9C48DAAD29DA407600F11D42 /* GPAVM.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -94,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				9CE7CDF829CD5F0500EAD968 /* CourseModel.swift */,
+				9C48DAAB29DA3E7D00F11D42 /* GPAModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -169,12 +181,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C969E6229CC06F5008DA9B9 /* ContentView.swift in Sources */,
+				9C48DAAA29DA3DB700F11D42 /* CalculateGPA.swift in Sources */,
 				9C4708B729D54D000022F498 /* AddGrade.swift in Sources */,
 				9C969E6029CC06F5008DA9B9 /* GradingCalculatorApp.swift in Sources */,
+				9C48DAAC29DA3E7D00F11D42 /* GPAModel.swift in Sources */,
 				9CAD8D7329D62766003B52DC /* EditGrade.swift in Sources */,
 				9CE7CDF929CD5F0500EAD968 /* CourseModel.swift in Sources */,
 				9CE7CDFB29CD65A500EAD968 /* CalculateGrade.swift in Sources */,
+				A2DD2CA729D8EFED00FE7F20 /* GradeVM.swift in Sources */,
 				9CF1857B29CC1710007B5B4F /* AddCourse.swift in Sources */,
+				9C48DAAE29DA407600F11D42 /* GPAVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

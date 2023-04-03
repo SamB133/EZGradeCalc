@@ -18,6 +18,8 @@ struct AddCourse: View {
     @State private var yearsCount = 0
     @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
+    @StateObject var vm: GradeVM
+   
     
     var body: some View {
         NavigationStack {
@@ -45,12 +47,14 @@ struct AddCourse: View {
                     Button("Add Course") {
                         if !title.isEmpty && !selectedSemester.isEmpty {
                             let course = Course(name: title, semester: selectedSemester, year: selectedYear, grades: [])
-                            courses.append(course)
-                            do {
-                                let data = try JSONEncoder().encode(courses)
-                                UserDefaults.standard.set(data, forKey: "courses")
-                            }
-                            catch {}
+                            vm.courses.append(course)
+//                            courses.append(course)
+//                            do {
+//                                let data = try JSONEncoder().encode(courses)
+//                                UserDefaults.standard.set(data, forKey: "courses")
+//                            }
+//                            catch {}
+                            vm.saveCourse()
                             dismiss()
                         } else {
                             showAlert.toggle()
@@ -92,6 +96,6 @@ extension Date {
 
 struct AddCourse_Previews: PreviewProvider {
     static var previews: some View {
-        AddCourse(courses: [Course(name: "Math", semester: "Spring", year: 2023, grades: [])])
+        AddCourse(courses: [Course(name: "Math", semester: "Spring", year: 2023, grades: [])], vm: GradeVM())
     }
 }
