@@ -9,43 +9,43 @@ import SwiftUI
 
 struct AddGrade: View {
     
-    @State var courses: [Course]
     @State var course: Course
     @State var title = ""
     @State var grade = ""
     @State var weight = ""
-    @State var grades:[Grade]
     @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm: GradeVM
+    @FetchRequest(sortDescriptors: []) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
+    @EnvironmentObject var dataController: DataManager
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     TextField("Grade Title", text: $title)
+                } header: {
+                    Text("Grade Title")
                 }
                 Section {
                     TextField("Grade (%)", text: $grade)
                         .keyboardType(.numberPad)
+                } header: {
+                    Text("Grade (%)")
                 }
                 Section {
                     TextField("Weight (%)", text: $weight)
                         .keyboardType(.numberPad)
+                } header: {
+                    Text("Weight (%)")
                 }
                 Section {
                     Button("Add Grade") {
-                        retrieveStoredData()
+                       
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
-                        
-                                let grade = Grade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0)
-                                vm.addGrade(courseName: course.name, grade: grade)
-                                grades = [grade]
-                                course.grades = grades
-                                vm.saveCourse()
+                            dataController.addGrade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0, course: course)
+                           
                                 dismiss()
-                            
-                            
                         } else {
                             showAlert.toggle()
                         }
@@ -62,20 +62,10 @@ struct AddGrade: View {
             })
         }
     }
-   
- 
-    
-    func retrieveStoredData() {
-        if let data = UserDefaults.standard.value(forKey: "courses") as? Data {
-            if let coursesData = try? JSONDecoder().decode([Course].self, from: data) {
-                self.courses = coursesData
-            }
-        }
-    }
 }
 
-struct AddGrade_Previews: PreviewProvider {
-    static var previews: some View {
-        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), grades: [Grade(name: "newGrade", grade: 99, weight: 40)], vm: GradeVM())
-    }
-}
+//struct AddGrade_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), grades: [Grade(name: "newGrade", grade: 99, weight: 40)], vm: GradeVM())
+//    }
+

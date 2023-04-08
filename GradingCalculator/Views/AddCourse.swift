@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddCourse: View {
     
-    @State var courses: [Course]
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
     @State var title = ""
     var semesters = ["Fall", "Spring", "Summer", "Winter"]
     @State var years: [Int] = []
@@ -18,14 +18,15 @@ struct AddCourse: View {
     @State private var yearsCount = 0
     @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm: GradeVM
+    @EnvironmentObject var dataManager: DataManager
    
-    
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     TextField("Course Title", text: $title)
+                } header: {
+                    Text("Course Title")
                 }
                 Section {
                     Picker("Semester", selection: $selectedSemester) {
@@ -34,6 +35,8 @@ struct AddCourse: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                } header: {
+                    Text("Semester")
                 }
                 Section {
                     Picker("Year", selection: $selectedYear) {
@@ -42,19 +45,13 @@ struct AddCourse: View {
                         }
                     }
                     .pickerStyle(.wheel)
+                } header: {
+                    Text("Year")
                 }
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !selectedSemester.isEmpty {
-                            let course = Course(name: title, semester: selectedSemester, year: selectedYear, grades: [])
-                            vm.courses.append(course)
-//                            courses.append(course)
-//                            do {
-//                                let data = try JSONEncoder().encode(courses)
-//                                UserDefaults.standard.set(data, forKey: "courses")
-//                            }
-//                            catch {}
-                            vm.saveCourse()
+                            dataManager.addCourse(name: title, semester: "\(selectedSemester)", year: Int16(selectedYear))
                             dismiss()
                         } else {
                             showAlert.toggle()
@@ -94,8 +91,9 @@ extension Date {
     }
 }
 
-struct AddCourse_Previews: PreviewProvider {
-    static var previews: some View {
-        AddCourse(courses: [Course(name: "Math", semester: "Spring", year: 2023, grades: [])], vm: GradeVM())
-    }
-}
+//struct AddCourse_Previews: PreviewProvider {
+//    static var previews: some View {
+//       
+//        AddCourse(courses: courses)
+//    }
+//}

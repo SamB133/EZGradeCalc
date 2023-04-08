@@ -9,9 +9,6 @@ import SwiftUI
 
 struct CalculateGrade: View {
     
-    @State var courses: [Course] = []
-    @State var course: Course
-    @State var gradeArr: [Grade]
     @State var grade = ""
     @State var weight = ""
     @State var average = ""
@@ -19,8 +16,11 @@ struct CalculateGrade: View {
     @State var isHidden = true
     @State var addGrade = false
     @State var courseIndex = 0
-    @StateObject var vm: GradeVM
-    
+    @StateObject var course: Course
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
+    @EnvironmentObject var dataController: DataManager
+
     var body: some View {
         NavigationStack {
             List {
@@ -35,12 +35,12 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                ForEach (vm.courses[courseIndex].grades, id: \.self) { grade in
+                ForEach (course.gradeArray, id:\.id) { grade in
                     NavigationLink {
-                        EditGrade(courses: courses, course: course, currentGrade: grade, vm: vm)
+                        EditGrade(course: course, currentGrade: grade)
                     } label: {
                         HStack {
-                            Text(grade.name)
+                            Text(grade.name ?? "No Name")
                             Spacer()
                             Text(String(grade.grade))
                                 .padding(.trailing, 23)
@@ -50,17 +50,14 @@ struct CalculateGrade: View {
                     }
                 }
                 .onDelete { indices in
-                    vm.courses[courseIndex].grades.remove(atOffsets: indices)
-                    vm.saveCourse()
+                    dataController.onDelete(at: indices, courses: grades)
                 }
                 .onMove { indices, newOffset in
-                    gradeArr.move(fromOffsets: indices, toOffset: newOffset)
-                    vm.courses[courseIndex].grades = gradeArr
-                    vm.saveCourse()
+                    dataController.moveItem(at: indices, destination: newOffset, courses: grades)
                 }
                 Section {
                     Button("Calculate Grade") {
-                        average = calculateGrade(course: course)
+                        average = calculateGrade()
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -85,39 +82,23 @@ struct CalculateGrade: View {
                         .padding(.leading, 275)
                 }
             }
-            .onAppear() {
-                retrieveStoredData()
-            }
             .sheet(isPresented: $addGrade, onDismiss: {
-                retrieveStoredData()
             }) {
-                AddGrade(courses: self.courses, course: self.course, grades: gradeArr, vm: vm)
+                AddGrade(course: self.course)
             }
         }
     }
-    
-    func retrieveStoredData() {
-        self.courses = vm.retrieveCourse()
-    }
-    
-    func save(_ courses: [Course]) {
-        do {
-            let data = try JSONEncoder().encode(courses)
-            UserDefaults.standard.set(data, forKey: "courses")
-        }
-        catch {}
-    }
-    
-    func calculateGrade(course: Course) -> String {
+
+    func calculateGrade() -> String {
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
         var totalAverage = 0.0
-        for grade in course.grades {
+        for grade in course.gradeArray {
             sumOfTotal += grade.grade * grade.weight
             sumOfWeights += grade.weight
         }
         totalAverage = sumOfTotal / sumOfWeights
-        return String(format: "%.5f", totalAverage)
+        return String(format: "%.3f", totalAverage)
     }
 }
 

@@ -13,24 +13,29 @@ enum gradeType {
 }
 
 struct EditGrade: View {
-    @State var courses: [Course]
+    
     @State var course: Course
     @State var currentGrade: Grade
     @State var title = ""
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
+    @EnvironmentObject var dataManager: DataManager
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @Environment(\.dismiss) var dismiss
-    @StateObject var vm: GradeVM
     
     var body: some View {
+        VStack{ }
         NavigationStack {
             Form {
                 Section {
                     TextField("", text: $title)
                         .placeholder(when: title.isEmpty) {
-                            Text(currentGrade.name)
+                            Text(currentGrade.name ?? "")
                         }
+                } header: {
+                    Text("Grade Title")
                 }
                 Section {
                     TextField("", text: $grade)
@@ -38,6 +43,8 @@ struct EditGrade: View {
                         .placeholder(when: grade.isEmpty) {
                             Text(String(currentGrade.grade))
                         }
+                } header: {
+                    Text("Grade (%)")
                 }
                 Section {
                     TextField("", text: $weight)
@@ -45,29 +52,33 @@ struct EditGrade: View {
                         .placeholder(when: weight.isEmpty) {
                             Text(String(currentGrade.weight))
                         }
+                } header: {
+                    Text("Weight (%)")
                 }
                 Section {
                     Button("Submit Changes") {
-                        _ = vm.retrieveCourse()
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
-                                var grade: Grade = self.currentGrade
-                                let courseIndex = vm.getCourseIndex(courseName: course.name)
-                                let gradeIndex = vm.getGradeIndexForCourseIndex(courseIndex: courseIndex, grade: grade, currentGrade: currentGrade) + 1
+                            var gradeIndex = 0
+                            for i in 0..<course.gradeArray.count {
+                                if course.gradeArray[i].id == currentGrade.id {
+                                    gradeIndex = i
+                                }
+                            }
+                            var myArray = course.grades?.allObjects as? [Grade]
                                 if !title.isEmpty {
-                                    vm.courses[courseIndex].grades[gradeIndex].name = title
+                                    currentGrade.name = title
                                 }
                                 if !self.grade.isEmpty {
-                                    vm.courses[courseIndex].grades[gradeIndex].grade = Double(self.grade) ?? 0.0
+                                   currentGrade.grade = Double(self.grade) ?? 0.0
                                 }
                                 if !weight.isEmpty {
-                                    vm.courses[courseIndex].grades[gradeIndex].weight = Double(self.weight) ?? 0.0
+                                    currentGrade.weight = Double(self.weight) ?? 0.0
                                 }
-                                grade = Grade(name: (title.isEmpty ? currentGrade.name : title), grade: Double(self.grade) ?? currentGrade.grade, weight: Double(self.weight) ?? currentGrade.weight)
-                            vm.courses[courseIndex].grades[gradeIndex] = grade
-                                vm.courses[courseIndex].grades[gradeIndex] = grade
-                                vm.saveCourse()
+                            myArray?[gradeIndex] = currentGrade
+                            let set = NSSet(array: myArray!)
+                            course.grades = set
+                                dataManager.save()
                                 dismiss()
-                          
                         } else {
                             showAlert.toggle()
                         }
@@ -84,33 +95,6 @@ struct EditGrade: View {
             })
         }
     }
-    
-    func retrieveCourseInfo() -> Grade {
-        var grade = Grade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0)
-        var courseIndex = 0
-        for i in 0..<courses.count {
-            if course.name == courses[i].name {
-                courseIndex = i
-            }
-        }
-        let courseGradesIndex = courses[courseIndex].grades
-        var gradeIndex = 0
-        for i in 0..<courseGradesIndex.count {
-            if courseGradesIndex[i].name == courseGradesIndex[i].name {
-                gradeIndex = i
-            }
-        }
-        grade.name = courseGradesIndex[gradeIndex].name
-        grade.grade = courseGradesIndex[gradeIndex].grade
-        grade.weight = courseGradesIndex[gradeIndex].weight
-        return grade
-    }
-}
-
-struct EditGrade_Previews: PreviewProvider {
-    static var previews: some View {
-        EditGrade(courses: [Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)])], course: Course(name: "Mathematics 101", semester: "Spring", year: 2023, grades: [Grade(name: "Exam 1", grade: 82, weight: 45)]), currentGrade: Grade(name: "Exam 1", grade: 90, weight: 25), vm: GradeVM())
-    }
 }
 
 extension View {
@@ -123,5 +107,12 @@ extension View {
             placeholder().opacity(shouldShow ? 1:0)
             self
         }
+    }
+}
+
+extension NSSet {
+    func toArray<S>(_ of: S.Type) -> [S] {
+        let array = self.map({$0 as! S})
+        return array
     }
 }
