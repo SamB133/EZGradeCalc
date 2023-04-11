@@ -110,7 +110,6 @@ struct CalculateGPA: View {
             gradePointsTotal += (GPA.grade * Double(GPA.credits))
             sumOfCredits += Int(GPA.credits)
         }
-        // foreach course: take the grade point and multiply it by the number of credits, and add that to the gradePointsTotal; Also in this loop, take the number of credits for each course and add them to the sumOfCredits
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         return String(format: "%.3f", cumulativeGPA)
     }

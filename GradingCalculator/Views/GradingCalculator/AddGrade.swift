@@ -41,10 +41,9 @@ struct AddGrade: View {
                 }
                 Section {
                     Button("Add Grade") {
-                       
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
                             dataController.addGrade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0, course: course)
-                           
+                                
                                 dismiss()
                         } else {
                             showAlert.toggle()

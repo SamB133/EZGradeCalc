@@ -21,7 +21,7 @@ struct EditGrade: View {
     @State var weight = ""
     @State private var showAlert = false
     @EnvironmentObject var dataManager: DataManager
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @Environment(\.dismiss) var dismiss
     
@@ -75,8 +75,9 @@ struct EditGrade: View {
                                     currentGrade.weight = Double(self.weight) ?? 0.0
                                 }
                             myArray?[gradeIndex] = currentGrade
-                            let set = NSSet(array: myArray!)
-                            course.grades = set
+                            for grade in (course.grades?.allObjects as? [Grade])! {
+                                course.addToGrades(grade)
+                            }
                                 dataManager.save()
                                 dismiss()
                         } else {

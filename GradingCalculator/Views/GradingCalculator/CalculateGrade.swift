@@ -17,7 +17,7 @@ struct CalculateGrade: View {
     @State var addGrade = false
     @State var courseIndex = 0
     @StateObject var course: Course
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order), SortDescriptor(\Grade.date, order: .reverse)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @EnvironmentObject var dataController: DataManager
 
@@ -35,7 +35,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                ForEach (course.gradeArray, id:\.id) { grade in
+                ForEach (course.gradeArray, id:\.date) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
                     } label: {
@@ -53,7 +53,7 @@ struct CalculateGrade: View {
                     dataController.onDelete(at: indices, courses: grades)
                 }
                 .onMove { indices, newOffset in
-                    dataController.moveItem(at: indices, destination: newOffset, courses: grades)
+                    dataController.moveItem(at: indices, destination: newOffset, grades: grades)
                 }
                 Section {
                     Button("Calculate Grade") {

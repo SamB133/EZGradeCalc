@@ -2,13 +2,12 @@
 //  Course+CoreDataProperties.swift
 //  GradingCalculator
 //
-//  Created by Samuel A. Benicewicz on 4/7/23.
+//  Created by Samuel A. Benicewicz on 4/10/23.
 //
 //
 
 import Foundation
 import CoreData
-
 
 extension Course {
 
@@ -18,18 +17,15 @@ extension Course {
 
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
+    @NSManaged public var order: Int64
     @NSManaged public var semester: String?
     @NSManaged public var year: Int16
-    @NSManaged public var order: Int64
+    @NSManaged public var date: Date?
     @NSManaged public var grades: NSSet?
     
     public var gradeArray: [Grade] {
-        let set = grades as? Set<Grade> ?? []
-        return set.sorted{
-            $0.order < $1.order
-        }
+        return grades?.allObjects as? [Grade] ?? []
     }
-
 }
 
 // MARK: Generated accessors for grades
@@ -46,7 +42,6 @@ extension Course {
 
     @objc(removeGrades:)
     @NSManaged public func removeFromGrades(_ values: NSSet)
-
 }
 
 extension Course : Identifiable {
