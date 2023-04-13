@@ -35,6 +35,7 @@ class DataManager: ObservableObject {
         viewContext.grade = grade
         viewContext.weight = weight
         viewContext.date = Date()
+        viewContext.order -= 1
         course.addToGrades(viewContext)
         save()
     }
@@ -46,7 +47,6 @@ class DataManager: ObservableObject {
         viewContext.grade = grade
         viewContext.weight = weight
         viewContext.date = Date()
-        //courseBelongTo.addToGrades(viewContext)
     }
     
     func addGPA(name: String, grade: Double, credits: Int) {
@@ -55,16 +55,17 @@ class DataManager: ObservableObject {
         viewContext.name = name
         viewContext.grade = grade
         viewContext.credits = Int16(credits)
+        viewContext.date = Date()
         save()
     }
     
     func addCourse(name: String, semester: String, year: Int16) {
-            let viewContext = Course(context: container.viewContext)
-            viewContext.id = UUID()
-            viewContext.name = name
-            viewContext.year = year
-            viewContext.date = Date()
-            viewContext.semester = semester
+        let viewContext = Course(context: container.viewContext)
+        viewContext.id = UUID()
+        viewContext.name = name
+        viewContext.year = year
+        viewContext.date = Date()
+        viewContext.semester = semester
         save()
     }
     
@@ -127,7 +128,7 @@ class DataManager: ObservableObject {
             }
             grades[itemToMove].order = newOrder
         }
-       save()
+        save()
     }
     
     func moveItem(at sets: IndexSet, destination: Int, courses: FetchedResults<Course>) {
@@ -155,7 +156,7 @@ class DataManager: ObservableObject {
             }
             courses[itemToMove].order = newOrder
         }
-       save()
+        save()
     }
 
     func save() {

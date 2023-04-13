@@ -2,12 +2,13 @@
 //  GPA+CoreDataProperties.swift
 //  GradingCalculator
 //
-//  Created by Samuel A. Benicewicz on 4/10/23.
+//  Created by Samuel A. Benicewicz on 4/13/23.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension GPA {
 
@@ -16,9 +17,12 @@ extension GPA {
     }
 
     @NSManaged public var credits: Int16
+    @NSManaged public var date: Date?
     @NSManaged public var grade: Double
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
+    @NSManaged public var order: Int64
+
 }
 
 extension GPA : Identifiable {

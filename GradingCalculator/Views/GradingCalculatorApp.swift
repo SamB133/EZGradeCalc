@@ -30,7 +30,8 @@ struct GradingCalculatorApp: App {
                     .environment(\.managedObjectContext, dataController.container.viewContext)
                     .environmentObject(dataController)
             }
-        }.onChange(of: scenePhase) { _ in
+        }
+        .onChange(of: scenePhase) { _ in
             dataController.save()
         }
     }

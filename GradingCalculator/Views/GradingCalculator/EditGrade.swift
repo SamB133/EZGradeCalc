@@ -39,7 +39,7 @@ struct EditGrade: View {
                 }
                 Section {
                     TextField("", text: $grade)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                         .placeholder(when: grade.isEmpty) {
                             Text(String(currentGrade.grade))
                         }
@@ -48,7 +48,7 @@ struct EditGrade: View {
                 }
                 Section {
                     TextField("", text: $weight)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                         .placeholder(when: weight.isEmpty) {
                             Text(String(currentGrade.weight))
                         }

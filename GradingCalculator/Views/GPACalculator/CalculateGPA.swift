@@ -14,8 +14,9 @@ struct CalculateGPA: View {
     @State var calculatedGPA = ""
     @State var addGPACourse = false
     @State private var showAlert = false
+    @State private var showAlert2 = false
     @EnvironmentObject var dataManager: DataManager
-    @FetchRequest(sortDescriptors: []) var GPAs: FetchedResults<GPA>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: true)]) var GPAs: FetchedResults<GPA>
     
     var body: some View {
         NavigationStack {
@@ -66,6 +67,9 @@ struct CalculateGPA: View {
                     Button("Calculate GPA") {
                         if ((!currentCredits.isEmpty && !currentGrapdePoints.isEmpty) || (currentCredits.isEmpty && currentGrapdePoints.isEmpty)) {
                             calculatedGPA = calculateGPA()
+                            if calculatedGPA == "" {
+                                showAlert2.toggle()
+                            }
                         } else {
                             showAlert.toggle()
                         }
@@ -73,6 +77,9 @@ struct CalculateGPA: View {
                     .frame(maxWidth: .infinity)
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
+                    }
+                    .alert(isPresented: $showAlert2) {
+                        Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
                     }
                 }
                 HStack {
@@ -84,14 +91,14 @@ struct CalculateGPA: View {
             .listStyle(.insetGrouped)
             .navigationBarTitle("GPA")
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         addGPACourse.toggle()
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .bottomBar) {
                     EditButton()
                         .padding(.leading, 275)
                 }
@@ -104,6 +111,7 @@ struct CalculateGPA: View {
     }
     
     func calculateGPA() -> String {
+        guard GPAs.count > 0 else { return "" }
         var sumOfCredits = Int(currentCredits) ?? 0
         var gradePointsTotal = Double(currentGrapdePoints) ?? 0.0
         for GPA in GPAs {

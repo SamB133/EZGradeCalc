@@ -2,12 +2,13 @@
 //  Course+CoreDataProperties.swift
 //  GradingCalculator
 //
-//  Created by Samuel A. Benicewicz on 4/10/23.
+//  Created by Samuel A. Benicewicz on 4/13/23.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension Course {
 
@@ -15,14 +16,14 @@ extension Course {
         return NSFetchRequest<Course>(entityName: "Course")
     }
 
+    @NSManaged public var date: Date?
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var order: Int64
     @NSManaged public var semester: String?
     @NSManaged public var year: Int16
-    @NSManaged public var date: Date?
     @NSManaged public var grades: NSSet?
-    
+
     public var gradeArray: [Grade] {
         return grades?.allObjects as? [Grade] ?? []
     }
@@ -42,6 +43,7 @@ extension Course {
 
     @objc(removeGrades:)
     @NSManaged public func removeFromGrades(_ values: NSSet)
+
 }
 
 extension Course : Identifiable {

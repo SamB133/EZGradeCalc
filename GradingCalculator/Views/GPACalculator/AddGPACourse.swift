@@ -26,7 +26,7 @@ struct AddGPACourse: View {
                 }
                 Section {
                     TextField("Grade Point (on 4.0 scale)", text: $grade)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }

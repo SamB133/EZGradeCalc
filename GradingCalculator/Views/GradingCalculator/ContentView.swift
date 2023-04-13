@@ -10,7 +10,7 @@ import CoreData
 
 struct ContentView: View {
     
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .forward), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .forward), SortDescriptor(\Course.date)]) var courses: FetchedResults<Course>
     @State var showAddCourse = false
     @EnvironmentObject var dataController: DataManager
 
@@ -21,7 +21,6 @@ struct ContentView: View {
                     VStack(alignment: .leading) {
                         NavigationLink {
                             CalculateGrade(course: course)
-                                .environmentObject(dataController)
                         } label: {
                             VStack(alignment: .leading) {
                                 Text(course.name ?? "")
@@ -40,14 +39,17 @@ struct ContentView: View {
             }
             .listStyle(.insetGrouped)
             .navigationBarTitle("Courses")
-            .navigationBarItems(trailing: EditButton())
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showAddCourse.toggle()
                     } label: {
                         Image(systemName: "plus")
                     }
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    EditButton()
+                        .padding(.leading, 275)
                 }
             }
         }

@@ -16,8 +16,10 @@ struct CalculateGrade: View {
     @State var isHidden = true
     @State var addGrade = false
     @State var courseIndex = 0
+    @State private var showAlert = false
+    @State var gradesArray: [Grade] = []
     @StateObject var course: Course
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Grade.order), SortDescriptor(\Grade.date, order: .reverse)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Grade.order, ascending: true)], predicate: NSPredicate(format: "date<%@", Date.now as CVarArg)) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @EnvironmentObject var dataController: DataManager
 
@@ -35,7 +37,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                ForEach (course.gradeArray, id:\.date) { grade in
+                ForEach (course.gradeArray.sorted(by: {($0 as Grade).date ?? Date(timeIntervalSinceNow: 99999999999) < ($1 as Grade).date ?? Date(timeIntervalSinceNow: 99999999999)})) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
                     } label: {
@@ -58,8 +60,14 @@ struct CalculateGrade: View {
                 Section {
                     Button("Calculate Grade") {
                         average = calculateGrade()
+                        if average == "" {
+                            showAlert.toggle()
+                        }
                     }
                     .frame(maxWidth: .infinity)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
+                    }
                 }
                 HStack {
                     Text("Calculated Average: ")
@@ -86,10 +94,15 @@ struct CalculateGrade: View {
             }) {
                 AddGrade(course: self.course)
             }
+            .onAppear {
+                self.gradesArray = course.gradeArray
+                self.gradesArray.sort(by: >)
+            }
         }
     }
 
     func calculateGrade() -> String {
+        guard course.grades?.count ?? 0 > 0 else { return "" }
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
         var totalAverage = 0.0

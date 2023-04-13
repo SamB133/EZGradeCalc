@@ -29,13 +29,13 @@ struct AddGrade: View {
                 }
                 Section {
                     TextField("Grade (%)", text: $grade)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade (%)")
                 }
                 Section {
                     TextField("Weight (%)", text: $weight)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                 } header: {
                     Text("Weight (%)")
                 }

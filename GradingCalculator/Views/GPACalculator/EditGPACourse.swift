@@ -30,7 +30,7 @@ struct EditGPACourse: View {
                 }
                 Section {
                     TextField("", text: $grade)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                         .placeholder(when: grade.isEmpty) {
                             Text(String(gpa.grade))
                         }
