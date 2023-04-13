@@ -16,6 +16,7 @@ struct CalculateGPA: View {
     @State private var showAlert = false
     @State private var showAlert2 = false
     @EnvironmentObject var dataManager: DataManager
+    @FocusState private var textFieldIsFocused: Bool
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: true)]) var GPAs: FetchedResults<GPA>
     
     var body: some View {
@@ -48,15 +49,18 @@ struct CalculateGPA: View {
                 }
                 .onDelete { indices in
                     dataManager.onDelete(at: indices, courses: GPAs)
+                    textFieldIsFocused = false
                 }
                 Section {
                     Section {
                         TextField("Current Completed Credits", text: $currentCredits)
                             .keyboardType(.numberPad)
+                            .focused($textFieldIsFocused)
                     }
                     Section {
                         TextField("Completed Grade Points Total", text: $currentGrapdePoints)
                             .keyboardType(.numberPad)
+                            .focused($textFieldIsFocused)
                     }
                 } header: {
                     Text("Optional for Cumulative GPA")
@@ -65,6 +69,7 @@ struct CalculateGPA: View {
                 }
                 Section {
                     Button("Calculate GPA") {
+                        textFieldIsFocused = false
                         if ((!currentCredits.isEmpty && !currentGrapdePoints.isEmpty) || (currentCredits.isEmpty && currentGrapdePoints.isEmpty)) {
                             calculatedGPA = calculateGPA()
                             if calculatedGPA == "" {
@@ -94,6 +99,7 @@ struct CalculateGPA: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         addGPACourse.toggle()
+                        textFieldIsFocused = false
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -104,6 +110,7 @@ struct CalculateGPA: View {
                 }
             }
             .sheet(isPresented: $addGPACourse, onDismiss: {
+                textFieldIsFocused = false
             }) {
                 AddGPACourse()
             }

@@ -10,6 +10,7 @@ import CoreData
 import SwiftUI
 
 class DataManager: ObservableObject {
+    
     static let sharedManager = DataManager()
     let container = NSPersistentContainer(name: "EZGradeCalcModel")
     
