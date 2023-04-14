@@ -41,9 +41,9 @@ struct CalculateGPA: View {
                             Text(gpaCourse.name ?? "")
                             Spacer()
                             Text(String(gpaCourse.grade))
-                                .padding(.trailing, 23)
+                                .padding(.trailing, 36)
                             Text(String(gpaCourse.credits))
-                                .padding(.trailing, 13)
+                                .padding(.trailing, 24)
                         }
                     }
                 }
@@ -106,7 +106,6 @@ struct CalculateGPA: View {
                 }
                 ToolbarItem(placement: .bottomBar) {
                     EditButton()
-                        .padding(.leading, 275)
                 }
             }
             .sheet(isPresented: $addGPACourse, onDismiss: {

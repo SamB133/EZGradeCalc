@@ -86,7 +86,6 @@ struct CalculateGrade: View {
                 }
                 ToolbarItem(placement: .bottomBar) {
                     EditButton()
-                        .padding(.leading, 275)
                 }
             }
             .sheet(isPresented: $addGrade, onDismiss: {

@@ -49,7 +49,6 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: .bottomBar) {
                     EditButton()
-                        .padding(.leading, 275)
                 }
             }
         }
