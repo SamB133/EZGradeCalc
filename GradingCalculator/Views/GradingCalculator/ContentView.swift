@@ -56,9 +56,6 @@ struct ContentView: View {
         }) {
             AddCourse(courses: _courses)
         }
-        .onAppear {
-            
-        }
     }
 }
 
