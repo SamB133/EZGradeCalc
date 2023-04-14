@@ -19,8 +19,10 @@ struct CalculateGrade: View {
     @State private var showAlert = false
     @State var gradesArray: [Grade] = []
     @StateObject var course: Course
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Grade.order, ascending: true)], predicate: NSPredicate(format: "date<%@", Date.now as CVarArg)) var grades: FetchedResults<Grade>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Grade.order, ascending: true)], predicate: NSPredicate(format: "date < %@", Date.now as CVarArg))
+    var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)])
+    var courses: FetchedResults<Course>
     @EnvironmentObject var dataController: DataManager
 
     var body: some View {
@@ -37,7 +39,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                ForEach (course.gradeArray.sorted(by: {($0 as Grade).date ?? Date(timeIntervalSinceNow: 99999999999) < ($1 as Grade).date ?? Date(timeIntervalSinceNow: 99999999999)})) { grade in
+                ForEach (course.gradeArray, id: \.date) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
                     } label: {
@@ -52,10 +54,7 @@ struct CalculateGrade: View {
                     }
                 }
                 .onDelete { indices in
-                    dataController.onDelete(at: indices, courses: grades)
-                }
-                .onMove { indices, newOffset in
-                    dataController.moveItem(at: indices, destination: newOffset, grades: grades)
+                    dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
                 }
                 Section {
                     Button("Calculate Grade") {

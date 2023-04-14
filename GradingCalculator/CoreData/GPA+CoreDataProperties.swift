@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension GPA {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<GPA> {
@@ -22,7 +21,6 @@ extension GPA {
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var order: Int64
-
 }
 
 extension GPA : Identifiable {

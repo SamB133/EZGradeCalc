@@ -64,7 +64,7 @@ struct EditGrade: View {
                                     gradeIndex = i
                                 }
                             }
-                            var myArray = course.grades?.allObjects as? [Grade]
+                            var myArray = course.grades?.array as? [Grade]
                                 if !title.isEmpty {
                                     currentGrade.name = title
                                 }
@@ -75,7 +75,7 @@ struct EditGrade: View {
                                     currentGrade.weight = Double(self.weight) ?? 0.0
                                 }
                             myArray?[gradeIndex] = currentGrade
-                            for grade in (course.grades?.allObjects as? [Grade])! {
+                            for grade in (course.grades?.array as? [Grade])! {
                                 course.addToGrades(grade)
                             }
                                 dataManager.save()

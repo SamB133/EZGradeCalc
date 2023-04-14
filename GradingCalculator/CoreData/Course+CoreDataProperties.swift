@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Course {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Course> {
@@ -22,15 +21,33 @@ extension Course {
     @NSManaged public var order: Int64
     @NSManaged public var semester: String?
     @NSManaged public var year: Int16
-    @NSManaged public var grades: NSSet?
+    @NSManaged public var grades: NSOrderedSet?
 
     public var gradeArray: [Grade] {
-        return grades?.allObjects as? [Grade] ?? []
+        return (grades?.array as? [Grade] ?? []).sorted(by: >)
     }
 }
 
 // MARK: Generated accessors for grades
 extension Course {
+
+    @objc(insertObject:inGradesAtIndex:)
+    @NSManaged public func insertIntoGrades(_ value: Grade, at idx: Int)
+
+    @objc(removeObjectFromGradesAtIndex:)
+    @NSManaged public func removeFromGrades(at idx: Int)
+
+    @objc(insertGrades:atIndexes:)
+    @NSManaged public func insertIntoGrades(_ values: [Grade], at indexes: NSIndexSet)
+
+    @objc(removeGradesAtIndexes:)
+    @NSManaged public func removeFromGrades(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInGradesAtIndex:withObject:)
+    @NSManaged public func replaceGrades(at idx: Int, with value: Grade)
+
+    @objc(replaceGradesAtIndexes:withGrades:)
+    @NSManaged public func replaceGrades(at indexes: NSIndexSet, with values: [Grade])
 
     @objc(addGradesObject:)
     @NSManaged public func addToGrades(_ value: Grade)
@@ -39,13 +56,14 @@ extension Course {
     @NSManaged public func removeFromGrades(_ value: Grade)
 
     @objc(addGrades:)
-    @NSManaged public func addToGrades(_ values: NSSet)
+    @NSManaged public func addToGrades(_ values: NSOrderedSet)
 
     @objc(removeGrades:)
-    @NSManaged public func removeFromGrades(_ values: NSSet)
-
+    @NSManaged public func removeFromGrades(_ values: NSOrderedSet)
 }
 
-extension Course : Identifiable {
-
+extension Course : Identifiable, Comparable {
+    public static func < (lhs: Course, rhs: Course) -> Bool {
+        return lhs.date ?? Date(timeIntervalSinceNow: 999999999) < rhs.date ?? Date(timeIntervalSinceNow: 99999999)
+    }
 }

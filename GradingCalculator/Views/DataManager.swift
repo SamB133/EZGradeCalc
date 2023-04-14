@@ -96,16 +96,40 @@ class DataManager: ObservableObject {
         delete(request2)
     }
     
+    func deleteGradesInaCourse(courses: FetchedResults<Course>, grade: Grade) {
+        for course in courses {
+            for grade in course.gradeArray {
+                if grade.id == grade.id {
+                    delete(grade)
+                }
+            }
+        }
+    }
+    
+    func onDeleteGrades(at offset: IndexSet, grades: [Grade]) {
+        for index in offset {
+            let grade = grades[index]
+            delete(grade)
+        }
+    }
+    
     func onDelete<T:NSManagedObject>(at offset: IndexSet, courses: FetchedResults<T>) {
         for index in offset {
-            let course = courses[index]
-            delete(course)
+             let cours = courses[index]
+             delete(cours)
+        }
+    }
+    
+    func move(fromSource: IndexSet, todestination: Int, course: Course) {
+        var resvised: [Grade] = course.gradeArray.map{$0}
+        resvised.move(fromOffsets: fromSource, toOffset: todestination)
+        for reveseIndex in stride(from: resvised.count - 1, to: 0, by: -1) {
+            resvised[reveseIndex].order = Int64(reveseIndex)
         }
         save()
     }
     
-    func moveItem(at sets: IndexSet, destination: Int, grades:FetchedResults<Grade>) {
-       
+    func moveItem(at sets: IndexSet, destination: Int, grades:[Grade]) {
         let itemToMove = sets.first!
         if itemToMove < destination {
             var startIndex = itemToMove + 1
@@ -129,11 +153,9 @@ class DataManager: ObservableObject {
             }
             grades[itemToMove].order = newOrder
         }
-        save()
     }
     
     func moveItem(at sets: IndexSet, destination: Int, courses: FetchedResults<Course>) {
-       
         let itemToMove = sets.first!
         if itemToMove < destination {
             var startIndex = itemToMove + 1
