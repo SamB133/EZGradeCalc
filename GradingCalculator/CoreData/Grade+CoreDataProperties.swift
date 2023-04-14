@@ -26,6 +26,6 @@ extension Grade {
 
 extension Grade : Identifiable, Comparable {
     public static func < (lhs: Grade, rhs: Grade) -> Bool {
-        return lhs.date ?? Date(timeIntervalSinceNow: 999999999) > rhs.date ?? Date(timeIntervalSinceNow: 99999999)
+        return lhs.date ?? Date(timeIntervalSinceNow: 999999999) < rhs.date ?? Date(timeIntervalSinceNow: 99999999)
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AddCourse: View {
     
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
     @State var title = ""
     var semesters = ["Fall", "Spring", "Summer", "Winter"]
     @State var years: [Int] = []
@@ -19,6 +18,7 @@ struct AddCourse: View {
     @State private var showAlert = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataManager: DataManager
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
    
     var body: some View {
         NavigationStack {

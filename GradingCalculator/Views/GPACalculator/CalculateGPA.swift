@@ -17,7 +17,7 @@ struct CalculateGPA: View {
     @State private var showAlert2 = false
     @EnvironmentObject var dataManager: DataManager
     @FocusState private var textFieldIsFocused: Bool
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: true)]) var GPAs: FetchedResults<GPA>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: false)]) var GPAs: FetchedResults<GPA>
     
     var body: some View {
         NavigationStack {

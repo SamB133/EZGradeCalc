@@ -129,7 +129,7 @@ class DataManager: ObservableObject {
         save()
     }
     
-    func moveItem(at sets: IndexSet, destination: Int, grades:[Grade]) {
+    func moveItem(at sets: IndexSet, destination: Int, grades: FetchedResults<Grade>) {
         let itemToMove = sets.first!
         if itemToMove < destination {
             var startIndex = itemToMove + 1

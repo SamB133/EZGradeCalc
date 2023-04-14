@@ -19,10 +19,7 @@ struct CalculateGrade: View {
     @State private var showAlert = false
     @State var gradesArray: [Grade] = []
     @StateObject var course: Course
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Grade.order, ascending: true)], predicate: NSPredicate(format: "date < %@", Date.now as CVarArg))
-    var grades: FetchedResults<Grade>
-    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)])
-    var courses: FetchedResults<Course>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @EnvironmentObject var dataController: DataManager
 
     var body: some View {
@@ -56,7 +53,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                ForEach (course.gradeArray, id: \.date) { grade in
+                ForEach (course.gradeArray, id: \.id) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
                     } label: {
