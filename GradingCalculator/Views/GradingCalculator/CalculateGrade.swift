@@ -28,6 +28,23 @@ struct CalculateGrade: View {
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    HStack {
+                        Text("Calculated Average: ")
+                        Text(String(average))
+                            .frame(maxWidth: .infinity)
+                    }
+                    Button("Calculate Grade") {
+                        average = calculateGrade()
+                        if average == "" {
+                            showAlert.toggle()
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
+                    }
+                }
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -55,23 +72,6 @@ struct CalculateGrade: View {
                 }
                 .onDelete { indices in
                     dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
-                }
-                Section {
-                    Button("Calculate Grade") {
-                        average = calculateGrade()
-                        if average == "" {
-                            showAlert.toggle()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
-                    }
-                }
-                HStack {
-                    Text("Calculated Average: ")
-                    Text(String(average))
-                        .frame(maxWidth: .infinity)
                 }
             }
             .listStyle(.insetGrouped)

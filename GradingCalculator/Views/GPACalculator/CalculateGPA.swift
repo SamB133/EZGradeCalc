@@ -22,6 +22,47 @@ struct CalculateGPA: View {
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    HStack {
+                        Text("Calculated GPA: ")
+                        Text(calculatedGPA)
+                            .frame(maxWidth: .infinity)
+                    }
+                    Button("Calculate GPA") {
+                        textFieldIsFocused = false
+                        if ((!currentCredits.isEmpty && !currentGrapdePoints.isEmpty) || (currentCredits.isEmpty && currentGrapdePoints.isEmpty)) {
+                            calculatedGPA = calculateGPA()
+                            if calculatedGPA == "" {
+                                showAlert2.toggle()
+                            }
+                        } else {
+                            showAlert.toggle()
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
+                    }
+                    .alert(isPresented: $showAlert2) {
+                        Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
+                    }
+                }
+                Section {
+                    Section {
+                        TextField("Current Completed Credits", text: $currentCredits)
+                            .keyboardType(.numberPad)
+                            .focused($textFieldIsFocused)
+                    }
+                    Section {
+                        TextField("Completed Grade Points Total", text: $currentGrapdePoints)
+                            .keyboardType(.numberPad)
+                            .focused($textFieldIsFocused)
+                    }
+                } header: {
+                    Text("Optional for Cumulative GPA")
+                } footer: {
+                    Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.")
+                }
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -50,47 +91,6 @@ struct CalculateGPA: View {
                 .onDelete { indices in
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
-                }
-                Section {
-                    Section {
-                        TextField("Current Completed Credits", text: $currentCredits)
-                            .keyboardType(.numberPad)
-                            .focused($textFieldIsFocused)
-                    }
-                    Section {
-                        TextField("Completed Grade Points Total", text: $currentGrapdePoints)
-                            .keyboardType(.numberPad)
-                            .focused($textFieldIsFocused)
-                    }
-                } header: {
-                    Text("Optional for Cumulative GPA")
-                } footer: {
-                    Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.")
-                }
-                Section {
-                    Button("Calculate GPA") {
-                        textFieldIsFocused = false
-                        if ((!currentCredits.isEmpty && !currentGrapdePoints.isEmpty) || (currentCredits.isEmpty && currentGrapdePoints.isEmpty)) {
-                            calculatedGPA = calculateGPA()
-                            if calculatedGPA == "" {
-                                showAlert2.toggle()
-                            }
-                        } else {
-                            showAlert.toggle()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
-                    }
-                    .alert(isPresented: $showAlert2) {
-                        Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
-                    }
-                }
-                HStack {
-                    Text("Calculated GPA: ")
-                    Text(calculatedGPA)
-                        .frame(maxWidth: .infinity)
                 }
             }
             .listStyle(.insetGrouped)
