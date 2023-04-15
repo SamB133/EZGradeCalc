@@ -29,6 +29,10 @@ struct GradingCalculatorApp: App {
                     }
                     .environment(\.managedObjectContext, dataController.container.viewContext)
                     .environmentObject(dataController)
+                Settings()
+                    .tabItem {
+                        Label("Settings", systemImage: "gear")
+                    }
             }
         }
         .onChange(of: scenePhase) { _ in

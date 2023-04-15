@@ -14,12 +14,13 @@ struct EditGPACourse: View {
     @State var credits = ""
     @State var gpa: GPA
     @State private var showAlert = false
+    @State var colorSelection: String = ".systemBackground"
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataManager: DataManager
     
     var body: some View {
         NavigationStack {
-            Form {
+            List {
                 Section {
                     TextField("", text: $title)
                         .placeholder(when: title.isEmpty) {
@@ -28,6 +29,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Course Title")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     TextField("", text: $grade)
                         .keyboardType(.decimalPad)
@@ -37,6 +39,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     TextField("", text: $credits)
                         .keyboardType(.numberPad)
@@ -46,6 +49,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Number of credits for course")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     Button("Submit Changes") {
                         if !title.isEmpty || !grade.isEmpty || !credits.isEmpty {
@@ -69,11 +73,19 @@ struct EditGPACourse: View {
                         Alert(title: Text("No Changes"), message: Text("No changes have been made."), dismissButton: .default(Text("Ok")))
                     }
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
             }
+            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Edit GPA Course"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
             })
+        }
+        .onAppear {
+            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
+                colorSelection = color
+            }
         }
     }
 }

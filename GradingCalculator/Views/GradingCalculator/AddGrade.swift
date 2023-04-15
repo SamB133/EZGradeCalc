@@ -14,6 +14,7 @@ struct AddGrade: View {
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
+    @State var colorSelection: String = ".systemBackground"
     @Environment(\.dismiss) var dismiss
     @FetchRequest(sortDescriptors: []) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
@@ -21,24 +22,27 @@ struct AddGrade: View {
     
     var body: some View {
         NavigationStack {
-            Form {
+            List {
                 Section {
                     TextField("Grade Title", text: $title)
                 } header: {
                     Text("Grade Title")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     TextField("Grade (%)", text: $grade)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade (%)")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     TextField("Weight (%)", text: $weight)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Weight (%)")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     Button("Add Grade") {
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
@@ -54,11 +58,19 @@ struct AddGrade: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
             }
+            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Add Grade"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
             })
+        }
+        .onAppear {
+            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
+                colorSelection = color
+            }
         }
     }
 }

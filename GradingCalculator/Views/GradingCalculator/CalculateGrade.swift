@@ -19,6 +19,7 @@ struct CalculateGrade: View {
     @State private var showAlert = false
     @State var gradesArray: [Grade] = []
     @StateObject var course: Course
+    @State var colorSelection: String = ".systemBackground"
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @EnvironmentObject var dataController: DataManager
 
@@ -42,6 +43,7 @@ struct CalculateGrade: View {
                         Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
                     }
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -53,6 +55,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 ForEach (course.gradeArray, id: \.id) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
@@ -66,11 +69,14 @@ struct CalculateGrade: View {
                                 .padding(.trailing, 13)
                         }
                     }
+                    .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 }
                 .onDelete { indices in
                     dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
                 }
             }
+            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
             .toolbar {
@@ -92,6 +98,11 @@ struct CalculateGrade: View {
             .onAppear {
                 self.gradesArray = course.gradeArray
                 self.gradesArray.sort(by: >)
+            }
+        }
+        .onAppear {
+            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
+                colorSelection = color
             }
         }
     }

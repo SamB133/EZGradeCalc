@@ -15,6 +15,7 @@ struct CalculateGPA: View {
     @State var addGPACourse = false
     @State private var showAlert = false
     @State private var showAlert2 = false
+    @State var colorSelection: String = ".systemBackground"
     @EnvironmentObject var dataManager: DataManager
     @FocusState private var textFieldIsFocused: Bool
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: false)]) var GPAs: FetchedResults<GPA>
@@ -47,6 +48,7 @@ struct CalculateGPA: View {
                         Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
                     }
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 Section {
                     Section {
                         TextField("Current Completed Credits", text: $currentCredits)
@@ -63,6 +65,7 @@ struct CalculateGPA: View {
                 } footer: {
                     Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.")
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -74,6 +77,7 @@ struct CalculateGPA: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
+                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 ForEach (GPAs, id: \.id) { gpaCourse in
                     NavigationLink {
                         EditGPACourse(gpa: gpaCourse).environmentObject(dataManager)
@@ -87,12 +91,15 @@ struct CalculateGPA: View {
                                 .padding(.trailing, 24)
                         }
                     }
+                    .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 }
                 .onDelete { indices in
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
                 }
             }
+            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("GPA")
             .toolbar {
@@ -112,6 +119,11 @@ struct CalculateGPA: View {
                 textFieldIsFocused = false
             }) {
                 AddGPACourse()
+            }
+        }
+        .onAppear {
+            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
+                colorSelection = color
             }
         }
     }

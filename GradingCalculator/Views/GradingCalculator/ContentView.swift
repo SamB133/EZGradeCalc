@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
     @State var showAddCourse = false
+    @State var colorSelection: String = ".systemBackground"
     @EnvironmentObject var dataController: DataManager
 
     var body: some View {
@@ -30,6 +31,7 @@ struct ContentView: View {
                             }
                         }
                     }
+                    .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
                 }.onDelete(perform: { set in
                     dataController.onDelete(at: set, courses: courses)
                 })
@@ -37,6 +39,8 @@ struct ContentView: View {
                     dataController.moveItem(at: set, destination: destinaton, courses: courses)
                 }
             }
+            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Courses")
             .toolbar {
@@ -50,6 +54,11 @@ struct ContentView: View {
                 ToolbarItem(placement: .bottomBar) {
                     EditButton()
                 }
+            }
+        }
+        .onAppear {
+            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
+                colorSelection = color
             }
         }
         .sheet(isPresented: $showAddCourse, onDismiss: {

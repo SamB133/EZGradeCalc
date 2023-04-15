@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C16185529E9F583003C2C34 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C16185429E9F583003C2C34 /* Settings.swift */; };
 		9C4708B729D54D000022F498 /* AddGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4708B629D54D000022F498 /* AddGrade.swift */; };
 		9C48DAAA29DA3DB700F11D42 /* CalculateGPA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */; };
 		9C48DAB029DA529200F11D42 /* AddGPACourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAAF29DA529200F11D42 /* AddGPACourse.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C16185429E9F583003C2C34 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9C4708B629D54D000022F498 /* AddGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGrade.swift; sourceTree = "<group>"; };
 		9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateGPA.swift; sourceTree = "<group>"; };
 		9C48DAAF29DA529200F11D42 /* AddGPACourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGPACourse.swift; sourceTree = "<group>"; };
@@ -64,6 +66,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C16185329E9F420003C2C34 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9C16185429E9F583003C2C34 /* Settings.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		9C4708B829D54EBC0022F498 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +81,7 @@
 				9CABDA6229DBE1EE0030BD4E /* DataManager.swift */,
 				9C87AE6229E5EB8F00C92A93 /* GradingCalculator */,
 				9C87AE6329E5EBB300C92A93 /* GPACalculator */,
+				9C16185329E9F420003C2C34 /* Settings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +235,7 @@
 				9C4708B729D54D000022F498 /* AddGrade.swift in Sources */,
 				9CABDA6329DBE1EE0030BD4E /* DataManager.swift in Sources */,
 				9C969E6029CC06F5008DA9B9 /* GradingCalculatorApp.swift in Sources */,
+				9C16185529E9F583003C2C34 /* Settings.swift in Sources */,
 				9C7BCE8D29E7EDA800C86D93 /* GPA+CoreDataProperties.swift in Sources */,
 				9C7BCE8F29E7EDA900C86D93 /* Grade+CoreDataClass.swift in Sources */,
 				9C7BCE8E29E7EDA900C86D93 /* Grade+CoreDataProperties.swift in Sources */,
@@ -361,7 +373,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"GradingCalculator/Preview Content\"";
 				DEVELOPMENT_TEAM = 6B3LSJD728;
 				ENABLE_PREVIEWS = YES;
@@ -394,7 +406,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"GradingCalculator/Preview Content\"";
 				DEVELOPMENT_TEAM = 6B3LSJD728;
 				ENABLE_PREVIEWS = YES;
