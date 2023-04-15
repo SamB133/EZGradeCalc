@@ -13,6 +13,7 @@ struct Settings: View {
     @State var primaryTextColor: String = " "
     @State var secondaryTextColor: String = " "
     @State var buttonColor: String = " "
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack {
@@ -58,7 +59,7 @@ struct Settings: View {
                     Text("Theme Selection")
                 }
             }
-            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationTitle("Settings")
         }

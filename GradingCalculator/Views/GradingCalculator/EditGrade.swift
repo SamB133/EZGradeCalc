@@ -21,6 +21,7 @@ struct EditGrade: View {
     @State var weight = ""
     @State private var showAlert = false
     @State var colorSelection: String = ".systemBackground"
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
@@ -37,7 +38,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     TextField("", text: $grade)
                         .keyboardType(.decimalPad)
@@ -47,7 +48,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     TextField("", text: $weight)
                         .keyboardType(.decimalPad)
@@ -57,7 +58,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Weight (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     Button("Submit Changes") {
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
@@ -92,9 +93,9 @@ struct EditGrade: View {
                         Alert(title: Text("No Changes"), message: Text("No changes have been made."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
             }
-            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Edit Grade"))
             .navigationBarItems(trailing: Button("Cancel") {

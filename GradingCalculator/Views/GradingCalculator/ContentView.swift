@@ -13,6 +13,7 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
     @State var showAddCourse = false
     @State var colorSelection: String = ".systemBackground"
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataController: DataManager
 
     var body: some View {
@@ -31,7 +32,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                    .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 }.onDelete(perform: { set in
                     dataController.onDelete(at: set, courses: courses)
                 })
@@ -39,7 +40,7 @@ struct ContentView: View {
                     dataController.moveItem(at: set, destination: destinaton, courses: courses)
                 }
             }
-            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Courses")

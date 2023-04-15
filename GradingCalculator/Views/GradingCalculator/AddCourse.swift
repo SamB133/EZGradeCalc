@@ -17,6 +17,7 @@ struct AddCourse: View {
     @State private var yearsCount = 0
     @State private var showAlert = false
     @State var colorSelection: String = ".systemBackground"
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
@@ -29,7 +30,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     Picker("Semester", selection: $selectedSemester) {
                         ForEach(semesters, id: \.self) {
@@ -40,7 +41,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Semester")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     Picker("Year", selection: $selectedYear) {
                         ForEach(years, id: \.self) {
@@ -51,7 +52,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Year")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !selectedSemester.isEmpty {
@@ -66,9 +67,9 @@ struct AddCourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? Color(.white) : Color(colorSelection))
+                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
             }
-            .background(colorSelection == ".systemBackground" ? Color(UIColor.secondarySystemBackground) : Color(colorSelection).opacity(1))
+            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Add Course"))
             .navigationBarItems(trailing: Button("Cancel") {
