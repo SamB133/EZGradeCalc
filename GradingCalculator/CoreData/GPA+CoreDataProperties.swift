@@ -2,7 +2,7 @@
 //  GPA+CoreDataProperties.swift
 //  GradingCalculator
 //
-//  Created by Samuel A. Benicewicz on 4/13/23.
+//  Created by Samuel A. Benicewicz on 4/17/23.
 //
 //
 

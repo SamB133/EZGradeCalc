@@ -12,59 +12,92 @@ struct ContentView: View {
     
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
     @State var showAddCourse = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataController: DataManager
-
+    @EnvironmentObject var colorManager: ColorManager
+    
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(courses, id: \.date) { course in
-                    VStack(alignment: .leading) {
-                        NavigationLink {
-                            CalculateGrade(course: course)
+        if courses.count == 0 {
+            NavigationStack {
+                List {
+                    Section {
+                        Button("Add A Course") {
+                            showAddCourse.toggle()
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                }
+                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
+                .scrollContentBackground(.hidden)
+                .listStyle(.insetGrouped)
+                .navigationBarTitle("Courses")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showAddCourse.toggle()
                         } label: {
-                            VStack(alignment: .leading) {
-                                Text(course.name ?? "")
-                                Text("\(course.semester ?? "") \(String(course.year))")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
+                            Image(systemName: "plus")
                         }
                     }
-                    .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
-                }.onDelete(perform: { set in
-                    dataController.onDelete(at: set, courses: courses)
-                })
-                .onMove { set, destinaton in
-                    dataController.moveItem(at: set, destination: destinaton, courses: courses)
                 }
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
-            .scrollContentBackground(.hidden)
-            .listStyle(.insetGrouped)
-            .navigationBarTitle("Courses")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showAddCourse.toggle()
-                    } label: {
-                        Image(systemName: "plus")
+            .sheet(isPresented: $showAddCourse, onDismiss: {
+            }) {
+                AddCourse(courses: _courses)
+                    .environmentObject(colorManager)
+            }
+        }else {
+            NavigationStack {
+                List {
+                    ForEach(courses, id: \.date) { course in
+                        VStack(alignment: .leading) {
+                            NavigationLink {
+                                CalculateGrade(course: course)
+                            } label: {
+                                VStack(alignment: .leading) {
+                                    Text(course.name ?? "")
+                                    Text("\(course.semester ?? "") \(String(course.year))")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                    }.onDelete(perform: { set in
+                        dataController.onDelete(at: set, courses: courses)
+                    })
+                    .onMove { set, destinaton in
+                        dataController.moveItem(at: set, destination: destinaton, courses: courses)
                     }
                 }
-                ToolbarItem(placement: .bottomBar) {
-                    EditButton()
+                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
+                .scrollContentBackground(.hidden)
+                .listStyle(.insetGrouped)
+                .navigationBarTitle("Courses")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showAddCourse.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        if courses.count > 0 {
+                            EditButton()
+                        }
+                    }
                 }
             }
-        }
-        .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
+            .onAppear {
+                colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
             }
-        }
-        .sheet(isPresented: $showAddCourse, onDismiss: {
-        }) {
-            AddCourse(courses: _courses)
+            .sheet(isPresented: $showAddCourse, onDismiss: {
+            }) {
+                AddCourse(courses: _courses)
+                    .environmentObject(colorManager)
+            }
         }
     }
 }

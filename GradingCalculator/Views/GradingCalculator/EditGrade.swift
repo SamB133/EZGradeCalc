@@ -20,12 +20,12 @@ struct EditGrade: View {
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var colorManager: ColorManager
     
     var body: some View {
         NavigationStack {
@@ -38,7 +38,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("", text: $grade)
                         .keyboardType(.decimalPad)
@@ -48,7 +48,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("", text: $weight)
                         .keyboardType(.decimalPad)
@@ -58,7 +58,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Weight (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Button("Submit Changes") {
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
@@ -93,9 +93,9 @@ struct EditGrade: View {
                         Alert(title: Text("No Changes"), message: Text("No changes have been made."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Edit Grade"))
             .navigationBarItems(trailing: Button("Cancel") {
@@ -103,9 +103,7 @@ struct EditGrade: View {
             })
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
-            }
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
         }
     }
 }

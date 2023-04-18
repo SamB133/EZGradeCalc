@@ -10,16 +10,21 @@ import SwiftUI
 struct CalculateGPA: View {
     
     @State var currentCredits = ""
-    @State var currentGrapdePoints = ""
+    @State var currentGradePoints = ""
     @State var calculatedGPA = ""
     @State var addGPACourse = false
     @State private var showAlert = false
     @State private var showAlert2 = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataManager: DataManager
     @FocusState private var textFieldIsFocused: Bool
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: false)]) var GPAs: FetchedResults<GPA>
+    @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) var commGPAs: FetchedResults<CommGPA>
+    @EnvironmentObject var colorManager: ColorManager
+    init(colorManager: ColorManager) {
+        UIToolbar.appearance().barTintColor = UIColor(Color(colorManager.colorSelection))
+    }
     
     var body: some View {
         NavigationStack {
@@ -32,7 +37,7 @@ struct CalculateGPA: View {
                     }
                     Button("Calculate GPA") {
                         textFieldIsFocused = false
-                        if ((!currentCredits.isEmpty && !currentGrapdePoints.isEmpty) || (currentCredits.isEmpty && currentGrapdePoints.isEmpty)) {
+                        if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
                             calculatedGPA = calculateGPA()
                             if calculatedGPA == "" {
                                 showAlert2.toggle()
@@ -49,7 +54,7 @@ struct CalculateGPA: View {
                         Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Section {
                         TextField("Current Completed Credits", text: $currentCredits)
@@ -57,7 +62,7 @@ struct CalculateGPA: View {
                             .focused($textFieldIsFocused)
                     }
                     Section {
-                        TextField("Completed Grade Points Total", text: $currentGrapdePoints)
+                        TextField("Completed Grade Points Total", text: $currentGradePoints)
                             .keyboardType(.numberPad)
                             .focused($textFieldIsFocused)
                     }
@@ -66,7 +71,7 @@ struct CalculateGPA: View {
                 } footer: {
                     Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -78,7 +83,7 @@ struct CalculateGPA: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 ForEach (GPAs, id: \.id) { gpaCourse in
                     NavigationLink {
                         EditGPACourse(gpa: gpaCourse).environmentObject(dataManager)
@@ -92,30 +97,33 @@ struct CalculateGPA: View {
                                 .padding(.trailing, 24)
                         }
                     }
-                    .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                    .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 }
                 .onDelete { indices in
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
                 }
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("GPA")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        addGPACourse.toggle()
-                        textFieldIsFocused = false
-                    } label: {
-                        Image(systemName: "plus")
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            addGPACourse.toggle()
+                            textFieldIsFocused = false
+                        } label: {
+                            Image(systemName: "plus")
+                        }
                     }
-                }
-                ToolbarItem(placement: .bottomBar) {
-                    EditButton()
-                }
-            }
+                    ToolbarItem(placement: .bottomBar) {
+                        if GPAs.count > 0 {
+                            EditButton()
+                        }
+                    }
+            }.toolbar(.visible, for: .automatic)
+            .toolbarBackground(Color(colorManager.colorSelection), for: .automatic)
             .sheet(isPresented: $addGPACourse, onDismiss: {
                 textFieldIsFocused = false
             }) {
@@ -123,27 +131,45 @@ struct CalculateGPA: View {
             }
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
+            if let gpa = users.last?.gpa {
+                calculatedGPA = String(format: "%.3f", gpa)
             }
+            if let currentCompletedCredits = commGPAs.last?.completedCredits{
+                self.currentCredits = String(currentCompletedCredits)
+            }
+            if let currentCompletedGradePoints = commGPAs.last?.completedGradePoints {
+                self.currentGradePoints = String(currentCompletedGradePoints)
+            }
+        }
+        .onChange(of: GPAs.count) { newValue in
+            calculatedGPA = calculateGPA()
+            dataManager.saveGPA(gpa: Double(calculatedGPA) ?? 0.0)
+        }
+        .onChange(of: currentCredits) { newValue in
+            dataManager.saveCompletedCredits(gpas: commGPAs, completedCredits: Int16(currentCredits) ?? 0, completedGradePoints: Int16(currentGradePoints) ?? 0)
+        }
+        .onChange(of: currentGradePoints) { newValue in
+            dataManager.saveCompletedCredits(gpas: commGPAs, completedCredits: Int16(currentCredits) ?? 0, completedGradePoints: Int16(currentGradePoints) ?? 0)
         }
     }
     
     func calculateGPA() -> String {
         guard GPAs.count > 0 else { return "" }
         var sumOfCredits = Int(currentCredits) ?? 0
-        var gradePointsTotal = Double(currentGrapdePoints) ?? 0.0
+        var gradePointsTotal = Double(currentGradePoints) ?? 0.0
         for GPA in GPAs {
             gradePointsTotal += (GPA.grade * Double(GPA.credits))
             sumOfCredits += Int(GPA.credits)
         }
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
+        dataManager.saveGPA(gpa: cumulativeGPA)
         return String(format: "%.3f", cumulativeGPA)
     }
 }
 
 struct CalculateGPA_Previews: PreviewProvider {
     static var previews: some View {
-        CalculateGPA()
+        CalculateGPA(colorManager: ColorManager())
     }
 }

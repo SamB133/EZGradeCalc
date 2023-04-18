@@ -41,6 +41,31 @@ class DataManager: ObservableObject {
         save()
     }
     
+    func saveGrade(averageGrade: Double, gradeArray: [Grade], courses:FetchedResults<Course>, course: Course) {
+        var courseIndex = 0
+        for i in 0..<courses.count {
+            if courses[i].id == course.id {
+                courseIndex = i
+            }
+        }
+        courses[courseIndex].averageGrade = averageGrade
+        save()
+    }
+    
+    func saveGPA(gpa: Double) {
+        let user = User(context: container.viewContext)
+        user.id = UUID()
+        user.gpa = gpa
+        save()
+    }
+    
+    func saveCompletedCredits(gpas: FetchedResults<CommGPA>, completedCredits: Int16, completedGradePoints: Int16) {
+        let gpa = CommGPA(context: container.viewContext)
+        gpa.completedCredits = completedCredits
+        gpa.completedGradePoints = completedGradePoints
+        save()
+    }
+    
     func editGrade(name:String, grade: Double, editGrade: Grade, weight: Double, courseBelongTo: Course, currentGrade: Grade) {
         let viewContext = Grade(context: container.viewContext)
         viewContext.id = UUID()

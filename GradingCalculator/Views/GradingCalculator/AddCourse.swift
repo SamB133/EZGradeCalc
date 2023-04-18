@@ -16,12 +16,12 @@ struct AddCourse: View {
     @State private var selectedYear: Int = Date().addYear()
     @State private var yearsCount = 0
     @State private var showAlert = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
-   
+    @EnvironmentObject var colorManager: ColorManager
+    
     var body: some View {
         NavigationStack {
             List {
@@ -30,7 +30,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Picker("Semester", selection: $selectedSemester) {
                         ForEach(semesters, id: \.self) {
@@ -41,7 +41,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Semester")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Picker("Year", selection: $selectedYear) {
                         ForEach(years, id: \.self) {
@@ -52,7 +52,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Year")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground( colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !selectedSemester.isEmpty {
@@ -67,9 +67,9 @@ struct AddCourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Add Course"))
             .navigationBarItems(trailing: Button("Cancel") {
@@ -87,9 +87,7 @@ struct AddCourse: View {
             }
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
-            }
+            colorManager.colorSelection =  colorManager.getColorForKey(.colorThemeKey)
         }
     }
 }
@@ -101,6 +99,15 @@ extension Date {
         dateComponents.year = yearCount
         let date = calendar.date(byAdding: dateComponents, to: self) ?? Date()
         return calendar.dateComponents([.year], from: date).year ?? 0
+    }
+}
+
+extension AddCourse {
+    func updateColor () -> Color {
+       return  colorManager.colorSelection == ColorThemeColors.systemBackground.rawValue ? (
+            colorScheme == .dark ? Color(ColorThemeColors.darkSecondary.rawValue)
+            : Color(ColorThemeColors.white.rawValue)):
+                            Color(colorManager.colorSelection)
     }
 }
 

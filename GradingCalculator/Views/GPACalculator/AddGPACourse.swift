@@ -13,10 +13,10 @@ struct AddGPACourse: View {
     @State var grade = ""
     @State var credits = ""
     @State private var showAlert = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var colorManager: ColorManager
     
     var body: some View {
         NavigationStack {
@@ -26,21 +26,21 @@ struct AddGPACourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("Grade Point (on 4.0 scale)", text: $grade)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("Number of credits for course", text: $credits)
                         .keyboardType(.numberPad)
                 } header: {
                     Text("Number of credits for course")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !grade.isEmpty && !credits.isEmpty {
@@ -55,9 +55,9 @@ struct AddGPACourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Add Course"))
             .navigationBarItems(trailing: Button("Cancel") {
@@ -65,9 +65,7 @@ struct AddGPACourse: View {
             })
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
-            }
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
         }
     }
 }

@@ -2,7 +2,7 @@
 //  Course+CoreDataProperties.swift
 //  GradingCalculator
 //
-//  Created by Samuel A. Benicewicz on 4/13/23.
+//  Created by Samuel A. Benicewicz on 4/17/23.
 //
 //
 
@@ -21,8 +21,10 @@ extension Course {
     @NSManaged public var order: Int64
     @NSManaged public var semester: String?
     @NSManaged public var year: Int16
+    @NSManaged public var grade: Double
+    @NSManaged public var averageGrade: Double
     @NSManaged public var grades: NSOrderedSet?
-
+    
     public var gradeArray: [Grade] {
         return (grades?.array as? [Grade] ?? []).sorted(by: >)
     }

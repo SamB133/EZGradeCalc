@@ -11,28 +11,34 @@ import SwiftUI
 struct GradingCalculatorApp: App {
     
     @StateObject private var dataController = DataManager()
+    @StateObject private var colorManager = ColorManager()
     @Environment(\.scenePhase) var scenePhase
     
     var body: some Scene {
         WindowGroup {
             TabView {
-                ContentView()
-                    .tabItem {
-                       Label("Grading Calculator", systemImage: "studentdesk")
-                    }
-                    .environment(\.managedObjectContext, dataController.container.viewContext)
-                    .environmentObject(dataController)
-                  
-                CalculateGPA()
-                    .tabItem {
-                        Label("GPA Calculator", systemImage: "list.bullet.clipboard.fill")
-                    }
-                    .environment(\.managedObjectContext, dataController.container.viewContext)
-                    .environmentObject(dataController)
-                Settings()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
+                Group{
+                    ContentView()
+                        .tabItem {
+                            Label("Grading Calculator", systemImage: "studentdesk")
+                        }
+                        .environment(\.managedObjectContext, dataController.container.viewContext)
+                        .environmentObject(dataController)
+                        .environmentObject(colorManager)
+                    CalculateGPA(colorManager: colorManager)
+                        .tabItem {
+                            Label("GPA Calculator", systemImage: "list.bullet.clipboard.fill")
+                        }
+                        .environment(\.managedObjectContext, dataController.container.viewContext)
+                        .environmentObject(dataController)
+                        .environmentObject(colorManager)
+                    Settings(colorManager: colorManager)
+                        .tabItem {
+                            Label("Settings", systemImage: "gear")
+                        }
+                        .environmentObject(colorManager)
+                }.toolbarBackground(Color(colorManager.colorSelection), for: .tabBar)
+                    .toolbar(.visible, for: .tabBar)
             }
         }
         .onChange(of: scenePhase) { _ in

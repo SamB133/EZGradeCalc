@@ -14,12 +14,12 @@ struct AddGrade: View {
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @FetchRequest(sortDescriptors: []) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @EnvironmentObject var dataController: DataManager
+    @EnvironmentObject var colorManager: ColorManager
     
     var body: some View {
         NavigationStack {
@@ -29,21 +29,22 @@ struct AddGrade: View {
                 } header: {
                     Text("Grade Title")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(
+                    colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("Grade (%)", text: $grade)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     TextField("Weight (%)", text: $weight)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Weight (%)")
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground( colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Button("Add Grade") {
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
@@ -59,9 +60,9 @@ struct AddGrade: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground( colorManager.getColorDarkWhite(colorScheme: colorScheme))
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("Add Grade"))
             .navigationBarItems(trailing: Button("Cancel") {
@@ -69,9 +70,7 @@ struct AddGrade: View {
             })
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
-            }
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
         }
     }
 }

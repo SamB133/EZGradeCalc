@@ -19,22 +19,24 @@ struct CalculateGrade: View {
     @State private var showAlert = false
     @State var gradesArray: [Grade] = []
     @StateObject var course: Course
-    @State var colorSelection: String = ".systemBackground"
     @Environment(\.colorScheme) var colorScheme
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
+    @FetchRequest(sortDescriptors: [] ) var users: FetchedResults<User>
     @EnvironmentObject var dataController: DataManager
-
+    @EnvironmentObject var colorManager: ColorManager
+    
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     HStack {
                         Text("Calculated Average: ")
-                        Text(String(average))
+                        Text(average)
                             .frame(maxWidth: .infinity)
                     }
                     Button("Calculate Grade") {
-                        average = calculateGrade()
+                        calculateGrade()
                         if average == "" {
                             showAlert.toggle()
                         }
@@ -44,7 +46,7 @@ struct CalculateGrade: View {
                         Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -56,7 +58,7 @@ struct CalculateGrade: View {
                         .font(.system(size: 12))
                         .padding(.trailing, 20)
                 }
-                .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 ForEach (course.gradeArray, id: \.id) { grade in
                     NavigationLink {
                         EditGrade(course: course, currentGrade: grade)
@@ -70,13 +72,13 @@ struct CalculateGrade: View {
                                 .padding(.trailing, 13)
                         }
                     }
-                    .listRowBackground(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color("DarkSecondary") : Color(.white)) : Color(colorSelection))
+                    .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 }
                 .onDelete { indices in
                     dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
                 }
             }
-            .background(colorSelection == ".systemBackground" ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorSelection).opacity(1))
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
@@ -89,7 +91,9 @@ struct CalculateGrade: View {
                     }
                 }
                 ToolbarItem(placement: .bottomBar) {
-                    EditButton()
+                    if grades.count > 0 {
+                        EditButton()
+                    }
                 }
             }
             .sheet(isPresented: $addGrade, onDismiss: {
@@ -102,14 +106,17 @@ struct CalculateGrade: View {
             }
         }
         .onAppear {
-            if let color = UserDefaults.standard.value(forKey: "colorTheme") as? String {
-                colorSelection = color
-            }
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
+            average = String(format: "%.3f", course.averageGrade)
+        }
+        .onChange(of: course.grades?.count) { newValue in
+            calculateGrade()
+            average = String(format: "%.3f", course.averageGrade)
         }
     }
 
-    func calculateGrade() -> String {
-        guard course.grades?.count ?? 0 > 0 else { return "" }
+    func calculateGrade()  {
+        guard course.grades?.count ?? 0 > 0 else { return  }
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
         var totalAverage = 0.0
@@ -118,7 +125,8 @@ struct CalculateGrade: View {
             sumOfWeights += grade.weight
         }
         totalAverage = sumOfTotal / sumOfWeights
-        return String(format: "%.3f", totalAverage)
+        dataController.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
+        average = String(format: "%.3f", totalAverage)
     }
 }
 

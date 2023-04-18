@@ -12,10 +12,8 @@
 		9C48DAAA29DA3DB700F11D42 /* CalculateGPA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */; };
 		9C48DAB029DA529200F11D42 /* AddGPACourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAAF29DA529200F11D42 /* AddGPACourse.swift */; };
 		9C48DAB229DA548B00F11D42 /* EditGPACourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48DAB129DA548B00F11D42 /* EditGPACourse.swift */; };
-		9C7BCE8A29E7EDA800C86D93 /* GPA+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8429E7EDA800C86D93 /* GPA+CoreDataClass.swift */; };
 		9C7BCE8B29E7EDA800C86D93 /* Course+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8529E7EDA800C86D93 /* Course+CoreDataClass.swift */; };
 		9C7BCE8C29E7EDA800C86D93 /* Course+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8629E7EDA800C86D93 /* Course+CoreDataProperties.swift */; };
-		9C7BCE8D29E7EDA800C86D93 /* GPA+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8729E7EDA800C86D93 /* GPA+CoreDataProperties.swift */; };
 		9C7BCE8E29E7EDA900C86D93 /* Grade+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8829E7EDA800C86D93 /* Grade+CoreDataProperties.swift */; };
 		9C7BCE8F29E7EDA900C86D93 /* Grade+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BCE8929E7EDA800C86D93 /* Grade+CoreDataClass.swift */; };
 		9C9641AC29E7C58100908FDA /* EZGradeCalcModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C9641AA29E7C58100908FDA /* EZGradeCalcModel.xcdatamodeld */; };
@@ -24,10 +22,17 @@
 		9C969E6229CC06F5008DA9B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C969E6129CC06F5008DA9B9 /* ContentView.swift */; };
 		9C969E6429CC06F7008DA9B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C969E6329CC06F7008DA9B9 /* Assets.xcassets */; };
 		9C969E6729CC06F7008DA9B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C969E6629CC06F7008DA9B9 /* Preview Assets.xcassets */; };
+		9CA3DD0729EB50630029F494 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA3DD0629EB50630029F494 /* ColorManager.swift */; };
+		9CAAE74629EE519B004E5F01 /* GPA+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAAE74429EE519B004E5F01 /* GPA+CoreDataProperties.swift */; };
+		9CAAE74729EE519B004E5F01 /* GPA+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAAE74529EE519B004E5F01 /* GPA+CoreDataClass.swift */; };
 		9CABDA6329DBE1EE0030BD4E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDA6229DBE1EE0030BD4E /* DataManager.swift */; };
 		9CAD8D7329D62766003B52DC /* EditGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAD8D7229D62766003B52DC /* EditGrade.swift */; };
 		9CE7CDFB29CD65A500EAD968 /* CalculateGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE7CDFA29CD65A500EAD968 /* CalculateGrade.swift */; };
 		9CF1857B29CC1710007B5B4F /* AddCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF1857A29CC1710007B5B4F /* AddCourse.swift */; };
+		A246E98129ED224800C2ACE3 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A246E97F29ED224800C2ACE3 /* User+CoreDataClass.swift */; };
+		A246E98229ED224800C2ACE3 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A246E98029ED224800C2ACE3 /* User+CoreDataProperties.swift */; };
+		A26A161829EE74EE000DBA97 /* CommGPA+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A161629EE74EE000DBA97 /* CommGPA+CoreDataClass.swift */; };
+		A26A161929EE74EE000DBA97 /* CommGPA+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26A161729EE74EE000DBA97 /* CommGPA+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,10 +41,8 @@
 		9C48DAA929DA3DB700F11D42 /* CalculateGPA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateGPA.swift; sourceTree = "<group>"; };
 		9C48DAAF29DA529200F11D42 /* AddGPACourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGPACourse.swift; sourceTree = "<group>"; };
 		9C48DAB129DA548B00F11D42 /* EditGPACourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGPACourse.swift; sourceTree = "<group>"; };
-		9C7BCE8429E7EDA800C86D93 /* GPA+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GPA+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9C7BCE8529E7EDA800C86D93 /* Course+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9C7BCE8629E7EDA800C86D93 /* Course+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Course+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		9C7BCE8729E7EDA800C86D93 /* GPA+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GPA+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9C7BCE8829E7EDA800C86D93 /* Grade+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Grade+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9C7BCE8929E7EDA800C86D93 /* Grade+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Grade+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9C9641AB29E7C58100908FDA /* EZGradeCalcModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EZGradeCalcModel.xcdatamodel; sourceTree = "<group>"; };
@@ -49,10 +52,17 @@
 		9C969E6129CC06F5008DA9B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9C969E6329CC06F7008DA9B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C969E6629CC06F7008DA9B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9CA3DD0629EB50630029F494 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		9CAAE74429EE519B004E5F01 /* GPA+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GPA+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9CAAE74529EE519B004E5F01 /* GPA+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GPA+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9CABDA6229DBE1EE0030BD4E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		9CAD8D7229D62766003B52DC /* EditGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGrade.swift; sourceTree = "<group>"; };
 		9CE7CDFA29CD65A500EAD968 /* CalculateGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateGrade.swift; sourceTree = "<group>"; };
 		9CF1857A29CC1710007B5B4F /* AddCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourse.swift; sourceTree = "<group>"; };
+		A246E97F29ED224800C2ACE3 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A246E98029ED224800C2ACE3 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A26A161629EE74EE000DBA97 /* CommGPA+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommGPA+CoreDataClass.swift"; sourceTree = "<group>"; };
+		A26A161729EE74EE000DBA97 /* CommGPA+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommGPA+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,7 @@
 			children = (
 				9C969E5F29CC06F5008DA9B9 /* GradingCalculatorApp.swift */,
 				9CABDA6229DBE1EE0030BD4E /* DataManager.swift */,
+				9CA3DD0629EB50630029F494 /* ColorManager.swift */,
 				9C87AE6229E5EB8F00C92A93 /* GradingCalculator */,
 				9C87AE6329E5EBB300C92A93 /* GPACalculator */,
 				9C16185329E9F420003C2C34 /* Settings */,
@@ -90,12 +101,16 @@
 			isa = PBXGroup;
 			children = (
 				9C9641AA29E7C58100908FDA /* EZGradeCalcModel.xcdatamodeld */,
+				A26A161629EE74EE000DBA97 /* CommGPA+CoreDataClass.swift */,
+				A26A161729EE74EE000DBA97 /* CommGPA+CoreDataProperties.swift */,
 				9C7BCE8529E7EDA800C86D93 /* Course+CoreDataClass.swift */,
 				9C7BCE8629E7EDA800C86D93 /* Course+CoreDataProperties.swift */,
-				9C7BCE8429E7EDA800C86D93 /* GPA+CoreDataClass.swift */,
-				9C7BCE8729E7EDA800C86D93 /* GPA+CoreDataProperties.swift */,
+				9CAAE74529EE519B004E5F01 /* GPA+CoreDataClass.swift */,
+				9CAAE74429EE519B004E5F01 /* GPA+CoreDataProperties.swift */,
 				9C7BCE8929E7EDA800C86D93 /* Grade+CoreDataClass.swift */,
 				9C7BCE8829E7EDA800C86D93 /* Grade+CoreDataProperties.swift */,
+				A246E97F29ED224800C2ACE3 /* User+CoreDataClass.swift */,
+				A246E98029ED224800C2ACE3 /* User+CoreDataProperties.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -229,23 +244,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26A161829EE74EE000DBA97 /* CommGPA+CoreDataClass.swift in Sources */,
 				9C7BCE8C29E7EDA800C86D93 /* Course+CoreDataProperties.swift in Sources */,
 				9C969E6229CC06F5008DA9B9 /* ContentView.swift in Sources */,
 				9C48DAAA29DA3DB700F11D42 /* CalculateGPA.swift in Sources */,
 				9C4708B729D54D000022F498 /* AddGrade.swift in Sources */,
 				9CABDA6329DBE1EE0030BD4E /* DataManager.swift in Sources */,
 				9C969E6029CC06F5008DA9B9 /* GradingCalculatorApp.swift in Sources */,
+				9CAAE74629EE519B004E5F01 /* GPA+CoreDataProperties.swift in Sources */,
+				9CAAE74729EE519B004E5F01 /* GPA+CoreDataClass.swift in Sources */,
 				9C16185529E9F583003C2C34 /* Settings.swift in Sources */,
-				9C7BCE8D29E7EDA800C86D93 /* GPA+CoreDataProperties.swift in Sources */,
+				9CA3DD0729EB50630029F494 /* ColorManager.swift in Sources */,
 				9C7BCE8F29E7EDA900C86D93 /* Grade+CoreDataClass.swift in Sources */,
 				9C7BCE8E29E7EDA900C86D93 /* Grade+CoreDataProperties.swift in Sources */,
+				A26A161929EE74EE000DBA97 /* CommGPA+CoreDataProperties.swift in Sources */,
 				9CAD8D7329D62766003B52DC /* EditGrade.swift in Sources */,
 				9C9641AC29E7C58100908FDA /* EZGradeCalcModel.xcdatamodeld in Sources */,
 				9C48DAB029DA529200F11D42 /* AddGPACourse.swift in Sources */,
+				A246E98129ED224800C2ACE3 /* User+CoreDataClass.swift in Sources */,
 				9C48DAB229DA548B00F11D42 /* EditGPACourse.swift in Sources */,
 				9C7BCE8B29E7EDA800C86D93 /* Course+CoreDataClass.swift in Sources */,
+				A246E98229ED224800C2ACE3 /* User+CoreDataProperties.swift in Sources */,
 				9CE7CDFB29CD65A500EAD968 /* CalculateGrade.swift in Sources */,
-				9C7BCE8A29E7EDA800C86D93 /* GPA+CoreDataClass.swift in Sources */,
 				9CF1857B29CC1710007B5B4F /* AddCourse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
