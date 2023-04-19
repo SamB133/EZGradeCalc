@@ -26,21 +26,21 @@ struct AddGPACourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     TextField("Grade Point (on 4.0 scale)", text: $grade)
                         .keyboardType(.decimalPad)
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     TextField("Number of credits for course", text: $credits)
                         .keyboardType(.numberPad)
                 } header: {
                     Text("Number of credits for course")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !grade.isEmpty && !credits.isEmpty {
@@ -55,7 +55,7 @@ struct AddGPACourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
             }
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)

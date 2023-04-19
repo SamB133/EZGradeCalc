@@ -96,7 +96,7 @@ struct ContentView: View {
             .sheet(isPresented: $showAddCourse, onDismiss: {
             }) {
                 AddCourse(courses: _courses)
-                    .environmentObject(colorManager)
+                    
             }
         }
     }

@@ -325,70 +325,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C5C060ED-2856-4AA9-98D8-FE0B10FEE4DF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GradingCalculator/Views/GradingCalculator/CalculateGrade.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4E213D11-5041-4517-ACC4-B4073C14E0AE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GradingCalculator/Views/GradingCalculator/CalculateGrade.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "4E213D11-5041-4517-ACC4-B4073C14E0AE - af75b73fcf3017f0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.frame(minWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, idealWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, maxWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, minHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, idealHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, maxHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.alert(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, content: () -&gt; SwiftUI.Alert) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.listRowBackground&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(Swift.Optional&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.listRowBackground&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(Swift.Optional&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.onAppear(perform: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in GradingCalculator.CalculateGrade.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculator/CalculateGrade.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "660">
-               </Location>
-               <Location
-                  uuid = "4E213D11-5041-4517-ACC4-B4073C14E0AE - 7f3b2e928abf521c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.HStack&lt;SwiftUI.TupleView&lt;(SwiftUI.Text, &lt;&lt;opaque return type of SwiftUI.View.frame(minWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, idealWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, maxWidth: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, minHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, idealHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, maxHeight: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0)&gt;&gt;, &lt;&lt;opaque return type of SwiftUI.View.alert(isPresented: SwiftUI.Binding&lt;Swift.Bool&gt;, content: () -&gt; SwiftUI.Alert) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.listRowBackground&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(Swift.Optional&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.listRowBackground&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(Swift.Optional&lt;&#x3c4;_1_0&gt;) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.DynamicViewContent.onDelete(perform: Swift.Optional&lt;(Foundation.IndexSet) -&gt; ()&gt;) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.onAppear(perform: Swift.Optional&lt;() -&gt; ()&gt;) -&gt; some&gt;&gt;.0 in GradingCalculator.CalculateGrade.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculator/CalculateGrade.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "39"
-                  endingLineNumber = "39"
-                  offsetFromSymbolStart = "73">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9E10EE4F-BA48-4F9C-B834-02734EFBBFFA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -416,38 +352,6 @@
             endingLineNumber = "142"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "056818A8-31B6-4D64-8897-C3EB0D014E6C - 2ecc8f6960c5a798"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "1536">
-               </Location>
-               <Location
-                  uuid = "056818A8-31B6-4D64-8897-C3EB0D014E6C - 2ecc8f6960c5a798"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "142"
-                  endingLineNumber = "142"
-                  offsetFromSymbolStart = "1840">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -480,38 +384,6 @@
             endingLineNumber = "139"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "2FAE0C81-CD6C-4FD0-8A5F-7B3B2109DAC7 - 2ecc8f6960c5a63d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
-                  offsetFromSymbolStart = "1062">
-               </Location>
-               <Location
-                  uuid = "2FAE0C81-CD6C-4FD0-8A5F-7B3B2109DAC7 - 2ecc8f6960c5a63d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
-                  moduleName = "GradingCalculator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
-                  offsetFromSymbolStart = "1423">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -560,6 +432,38 @@
             endingLineNumber = "141"
             landmarkName = "body"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "68CE0CF0-A0A4-4717-B534-851F5C443875 - 5cb0cb9761042ee2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "1536">
+               </Location>
+               <Location
+                  uuid = "68CE0CF0-A0A4-4717-B534-851F5C443875 - 5cb0cb9761042ee2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 () -&gt; () in GradingCalculator.CalculateGPA.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "1840">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -626,14 +530,14 @@
             landmarkType = "14">
             <Locations>
                <Location
-                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - 4699439fcc1b6db6"
+                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - d8d93a7c29093025"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "GradingCalculator.ContentView.colorManager.getter : GradingCalculator.ColorManager"
                   moduleName = "GradingCalculator"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -641,14 +545,14 @@
                   offsetFromSymbolStart = "106">
                </Location>
                <Location
-                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - c6cb467cbd88e483"
+                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - 588b3f9f589ab910"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "GradingCalculator.ContentView.$colorManager.getter : SwiftUI.EnvironmentObject&lt;GradingCalculator.ColorManager&gt;.Wrapper"
                   moduleName = "GradingCalculator"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -656,14 +560,14 @@
                   offsetFromSymbolStart = "106">
                </Location>
                <Location
-                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - 9334d7d92b75c8c4"
+                  uuid = "00F1F6D9-837B-4842-B0F9-BC9EB52A31C5 - d74ae3ace679557"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "GradingCalculator.ContentView.init() -&gt; GradingCalculator.ContentView"
                   moduleName = "GradingCalculator"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
@@ -692,38 +596,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CD3568DA-09C7-4053-A677-B90A1E3DEA93"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GradingCalculator/Views/ColorManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "getColorDarkWhite(colorScheme:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1E1CE7F6-7FFD-4BDE-A43E-AA945CF0FE80"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GradingCalculator/Views/ColorManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "getColorDarkWhite(colorScheme:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7B72A7F7-FA72-4D09-A0E3-757EB9A0B64A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -737,34 +609,34 @@
             landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "7B72A7F7-FA72-4D09-A0E3-757EB9A0B64A - 80b97072d20bdee5"
+                  uuid = "7B72A7F7-FA72-4D09-A0E3-757EB9A0B64A - e747e2432bb3a0ba"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.toolbar(_: SwiftUI.Visibility, for: SwiftUI.ToolbarPlacement...) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TabView&lt;Swift.Int, &lt;&lt;opaque return type of SwiftUI.View.toolbar(_: SwiftUI.Visibility, for: SwiftUI.ToolbarPlacement...) -&gt; some&gt;&gt;.0&gt; in GradingCalculator.GradingCalculatorApp.body.getter : some"
+                  symbolName = "GradingCalculator.GradingCalculatorApp.body.getter : some"
                   moduleName = "GradingCalculator"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculatorApp.swift"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculatorApp.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "44"
                   endingLineNumber = "44"
-                  offsetFromSymbolStart = "431">
+                  offsetFromSymbolStart = "420">
                </Location>
                <Location
-                  uuid = "7B72A7F7-FA72-4D09-A0E3-757EB9A0B64A - a4965dfe28b7d023"
+                  uuid = "7B72A7F7-FA72-4D09-A0E3-757EB9A0B64A - 5ba0a622bdcf48e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.environmentObject&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Combine.ObservableObject&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.environmentObject&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Combine.ObservableObject&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0, &lt;&lt;opaque return type of SwiftUI.View.environmentObject&lt;&#x3c4;_0_0 where &#x3c4;_1_0: Combine.ObservableObject&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0)&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.toolbar(_: SwiftUI.Visibility, for: SwiftUI.ToolbarPlacement...) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TabView&lt;Swift.Int, &lt;&lt;opaque return type of SwiftUI.View.toolbar(_: SwiftUI.Visibility, for: SwiftUI.ToolbarPlacement...) -&gt; some&gt;&gt;.0&gt; in GradingCalculator.GradingCalculatorApp.body.getter : some"
+                  symbolName = "closure #2 (SwiftUI.ScenePhase) -&gt; () in GradingCalculator.GradingCalculatorApp.body.getter : some"
                   moduleName = "GradingCalculator"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-9/GradingCalculator/Views/GradingCalculatorApp.swift"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculatorApp.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "44"
-                  endingLineNumber = "44"
-                  offsetFromSymbolStart = "4169">
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "106">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -783,6 +655,38 @@
             endingLineNumber = "97"
             landmarkName = "body"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "291383AF-1D6B-410F-AF20-3E76208B8B18 - b61a9630e57561e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 () -&gt; () in GradingCalculator.ContentView.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "291383AF-1D6B-410F-AF20-3E76208B8B18 - 560046d9da895755"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #7 () -&gt; GradingCalculator.AddCourse in GradingCalculator.ContentView.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "303">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -797,6 +701,150 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
             endingLineNumber = "96"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "BEBFB400-E951-4AB0-9EB4-B95497DA4BCB - 516b7a5da123f90c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GradingCalculator.ContentView.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "3124">
+               </Location>
+               <Location
+                  uuid = "BEBFB400-E951-4AB0-9EB4-B95497DA4BCB - b61a9630e57561e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 () -&gt; () in GradingCalculator.ContentView.body.getter : some"
+                  moduleName = "GradingCalculator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/derharta/Downloads/GradingCalculator-10/GradingCalculator/Views/GradingCalculator/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "4">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ECC39A4B-0A4C-40D2-91F1-925FDD4B1AE8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GradingCalculator/AddGrade.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C9F10BC8-F5BA-4B90-8137-58C945B371D4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GradingCalculator/AddGrade.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "87E62F53-F66C-4026-BCA4-A4FA9F0F9456"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "749DCD6B-782B-4C88-B221-A60839EEF2A9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GradingCalculator/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6EE7396A-1B31-4102-B213-5D8383192387"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GradingCalculator/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63157B2D-7F8D-450D-89EF-B9E3AC2957CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GradingCalculator/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2C308479-9A2D-4155-82CF-4539B876A307"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GradingCalculator/Views/GPACalculator/CalculateGPA.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

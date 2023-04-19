@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     
-    @State var colorSelection: String = ".systemBackground"
+    @State var colorSelection: String = "systemBackground"
     @State var primaryTextColor: String = " "
     @State var secondaryTextColor: String = " "
     @State var buttonTextColor: String = " "

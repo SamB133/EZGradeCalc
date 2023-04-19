@@ -112,6 +112,13 @@ class ColorManager: ObservableObject {
 
 extension ColorManager {
     
+    func getSecondaryColor(colorScheme: ColorScheme) -> Color {
+        if colorSelection == ColorThemeColors.systemBackground.rawValue {
+           return colorScheme == .light ? Color.white : Color(UIColor.secondarySystemBackground)
+         }
+        return Color(colorSelection)
+    }
+    
     func getColorDarkWhite (colorScheme: ColorScheme) -> Color {
         if colorSelection.isEmpty || colorSelection == " "{
             saveSystemDefault(colorScheme: colorScheme)
@@ -130,6 +137,7 @@ extension ColorManager {
         return  colorSelection == ColorThemeColors.systemBackground.rawValue ? (
             colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)): Color(colorSelection)
     }
+    
     func getColor(colorScheme: ColorScheme, _ color1: UIColor = .clear, _ color2:UIColor = .clear) -> Color {
         return colorSelection == ColorThemeColors.systemBackground.rawValue ? (
             colorScheme == .dark ? Color(color1) : Color(color2)) : Color(colorSelection)
@@ -143,12 +151,13 @@ extension ColorManager {
     func getColorForKey(_ key: ColorKey) -> String {
         return colorThemes[key.rawValue] ?? ""
     }
+    
     func getColorForKey(_ key: ColorKey) -> ColorThemeColors {
         return ColorThemeColors(rawValue:colorThemes[key.rawValue] ?? "") ?? .noColor
     }
     
     func saveSystemDefault(colorScheme: ColorScheme) {
-      setColor(.colorThemeKey, .systemBackground, colorScheme: colorScheme)
+        setColor(.colorThemeKey, .systemBackground, colorScheme: colorScheme)
         setColor(.primaryTextColorKey, .black, .white, colorScheme: colorScheme)
         setColor(.secondaryTextColorKey, .lightModeSecondaryText, .darkModeSecondaryText, colorScheme:  colorScheme)
         setColor(.buttonTextColorKey, .lightModeButtonText, .darkModeButtonText, colorScheme: colorScheme)

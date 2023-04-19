@@ -30,7 +30,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Picker("Semester", selection: $selectedSemester) {
                         ForEach(semesters, id: \.self) {
@@ -41,7 +41,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Semester")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Picker("Year", selection: $selectedYear) {
                         ForEach(years, id: \.self) {
@@ -52,7 +52,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Year")
                 }
-                .listRowBackground( colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
                         if !title.isEmpty && !selectedSemester.isEmpty {
@@ -67,7 +67,7 @@ struct AddCourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
             }
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
