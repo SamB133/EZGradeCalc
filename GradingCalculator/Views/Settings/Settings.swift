@@ -21,35 +21,51 @@ struct Settings: View {
             List {
                 Section {
                     Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
                         saveSystemDefault()
                     } label: {
-                        Text("System Default")
+                        Text("Light")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
                     }
-                    .listRowBackground(Color(.white))
+                    .listRowBackground(Color(ColorThemeColors.white.rawValue))
                     Button {
+                        colorManager.setColor(.colorSchemeKey, .dark, colorScheme: colorScheme)
+                        saveSystemDefault()
+                    } label: {
+                        Text("Dark")
+                            .foregroundColor(Color(ColorThemeColors.white.rawValue))
+                    }
+                    .listRowBackground(Color(ColorThemeColors.darkSecondary.rawValue))
+                    Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
                         colorManager.setColor(.colorThemeKey, .skyBlue, colorScheme: colorScheme)
                     } label: {
                         Text("Sky Blue")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
                     }
                     .listRowBackground(Color("SkyBlue"))
                     Button {
+                        colorManager.setColor(.colorSchemeKey, .dark, colorScheme: colorScheme)
                         colorManager.setColor(.colorThemeKey, .maroon, colorScheme: colorScheme)
-                       
                     } label: {
                         Text("Maroon")
-                            .foregroundColor(Color("White"))
+                            .foregroundColor(Color(ColorThemeColors.white.rawValue))
                     }
                     .listRowBackground(Color("Maroon"))
                     Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
                         colorManager.setColor(.colorThemeKey, .mintGreen, colorScheme: colorScheme)
                     } label: {
                         Text("Mint Green")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
                     }
                     .listRowBackground(Color("MintGreen"))
                     Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
                         colorManager.setColor(.colorThemeKey, .deepOrange, colorScheme: colorScheme)
                     } label: {
                         Text("Deep Orange")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
                     }
                     .listRowBackground(Color("DeepOrange"))
                 } header: {

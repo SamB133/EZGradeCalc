@@ -26,6 +26,7 @@ struct EditGrade: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var colorManager: ColorManager
+    @FocusState private var textFieldIsFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -35,6 +36,7 @@ struct EditGrade: View {
                         .placeholder(when: title.isEmpty) {
                             Text(currentGrade.name ?? "")
                         }
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Grade Title")
                 }
@@ -45,6 +47,7 @@ struct EditGrade: View {
                         .placeholder(when: grade.isEmpty) {
                             Text(String(currentGrade.grade))
                         }
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Grade (%)")
                 }
@@ -55,12 +58,14 @@ struct EditGrade: View {
                         .placeholder(when: weight.isEmpty) {
                             Text(String(currentGrade.weight))
                         }
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Weight (%)")
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
                     Button("Submit Changes") {
+                        textFieldIsFocused = false
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
                             var gradeIndex = 0
                             for i in 0..<course.gradeArray.count {
@@ -101,6 +106,14 @@ struct EditGrade: View {
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
             })
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        textFieldIsFocused = false
+                    }
+                }
+            }
         }
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)

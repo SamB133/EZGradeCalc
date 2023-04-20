@@ -21,12 +21,14 @@ struct AddCourse: View {
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)]) var courses: FetchedResults<Course>
     @EnvironmentObject var colorManager: ColorManager
+    @FocusState private var textFieldIsFocused: Bool
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     TextField("Course Title", text: $title)
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Course Title")
                 }
@@ -55,6 +57,7 @@ struct AddCourse: View {
                 .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
+                        textFieldIsFocused = false
                         if !title.isEmpty && !selectedSemester.isEmpty {
                             dataManager.addCourse(name: title, semester: "\(selectedSemester)", year: Int16(selectedYear))
                             dismiss()
@@ -75,6 +78,14 @@ struct AddCourse: View {
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
             })
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        textFieldIsFocused = false
+                    }
+                }
+            }
             .onChange(of: selectedYear) { newValue in
                 self.selectedYear = newValue
                 print(newValue)

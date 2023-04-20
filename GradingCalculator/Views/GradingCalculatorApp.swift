@@ -40,6 +40,7 @@ struct GradingCalculatorApp: App {
                 }.toolbarBackground(Color(colorManager.colorSelection), for: .tabBar)
                     .toolbar(.visible, for: .tabBar)
             }
+            .preferredColorScheme(colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light)
         }
         .onChange(of: scenePhase) { _ in
             dataController.save()

@@ -87,7 +87,7 @@ struct CalculateGrade: View {
                     Button {
                         addGrade.toggle()
                     } label: {
-                        Image(systemName: "plus")
+                        Text("Add Grade")
                     }
                 }
                 ToolbarItem(placement: .bottomBar) {

@@ -32,15 +32,6 @@ struct ContentView: View {
                 .scrollContentBackground(.hidden)
                 .listStyle(.insetGrouped)
                 .navigationBarTitle("Courses")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            showAddCourse.toggle()
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                    }
-                }
             }
             .sheet(isPresented: $showAddCourse, onDismiss: {
             }) {
@@ -80,7 +71,7 @@ struct ContentView: View {
                         Button {
                             showAddCourse.toggle()
                         } label: {
-                            Image(systemName: "plus")
+                            Text("Add Course")
                         }
                     }
                     ToolbarItem(placement: .bottomBar) {
@@ -96,7 +87,6 @@ struct ContentView: View {
             .sheet(isPresented: $showAddCourse, onDismiss: {
             }) {
                 AddCourse(courses: _courses)
-                    
             }
         }
     }

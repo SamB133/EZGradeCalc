@@ -20,21 +20,23 @@ struct AddGrade: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order)]) var courses: FetchedResults<Course>
     @EnvironmentObject var dataController: DataManager
     @EnvironmentObject var colorManager: ColorManager
+    @FocusState private var textFieldIsFocused: Bool
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     TextField("Grade Title", text: $title)
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Grade Title")
                 }
                 .scrollContentBackground(.hidden)
                 .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
-                   
                 Section {
                     TextField("Grade (%)", text: $grade)
                         .keyboardType(.decimalPad)
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Grade (%)")
                 }
@@ -42,15 +44,16 @@ struct AddGrade: View {
                 Section {
                     TextField("Weight (%)", text: $weight)
                         .keyboardType(.decimalPad)
+                        .focused($textFieldIsFocused)
                 } header: {
                     Text("Weight (%)")
                 }
                 .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Button("Add Grade") {
+                        textFieldIsFocused = false
                         if !title.isEmpty && !grade.isEmpty && !weight.isEmpty {
                             dataController.addGrade(name: title, grade: Double(grade) ?? 0.0, weight: Double(weight) ?? 0.0, course: course)
-                                
                                 dismiss()
                         } else {
                             showAlert.toggle()
@@ -69,6 +72,14 @@ struct AddGrade: View {
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
             })
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        textFieldIsFocused = false
+                    }
+                }
+            }
         }
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)

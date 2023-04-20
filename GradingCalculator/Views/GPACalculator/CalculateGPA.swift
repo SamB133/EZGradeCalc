@@ -17,11 +17,11 @@ struct CalculateGPA: View {
     @State private var showAlert2 = false
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataManager: DataManager
-    @FocusState private var textFieldIsFocused: Bool
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \GPA.date, ascending: false)]) var GPAs: FetchedResults<GPA>
     @FetchRequest(sortDescriptors: []) var users: FetchedResults<User>
     @FetchRequest(sortDescriptors: []) var commGPAs: FetchedResults<CommGPA>
     @EnvironmentObject var colorManager: ColorManager
+    @FocusState private var textFieldIsFocused: Bool
     init(colorManager: ColorManager) {
         UIToolbar.appearance().barTintColor = UIColor(Color(colorManager.colorSelection))
     }
@@ -109,20 +109,27 @@ struct CalculateGPA: View {
             .listStyle(.insetGrouped)
             .navigationBarTitle("GPA")
             .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            addGPACourse.toggle()
-                            textFieldIsFocused = false
-                        } label: {
-                            Image(systemName: "plus")
-                        }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        addGPACourse.toggle()
+                        textFieldIsFocused = false
+                    } label: {
+                        Text("Add Course")
                     }
-                    ToolbarItem(placement: .bottomBar) {
-                        if GPAs.count > 0 {
-                            EditButton()
-                        }
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    if GPAs.count > 0 {
+                        EditButton()
                     }
-            }.toolbar(.visible, for: .automatic)
+                }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        textFieldIsFocused = false
+                    }
+                }
+            }
+            .toolbar(.visible, for: .automatic)
             .toolbarBackground(Color(colorManager.colorSelection), for: .automatic)
             .sheet(isPresented: $addGPACourse, onDismiss: {
                 textFieldIsFocused = false

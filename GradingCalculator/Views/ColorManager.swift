@@ -22,6 +22,8 @@ enum ColorThemeColors: String {
     case deepOrange = "DeepOrange"
     case mintGreen = "MintGreen"
     case maroon = "Maroon"
+    case dark = ".dark"
+    case light = ".light"
     case noColor
     
     init?(rawValue: String) {
@@ -64,6 +66,7 @@ enum ColorKey: String {
     case primaryTextColorKey = "primaryTextColor"
     case secondaryTextColorKey = "secondaryTextColor"
     case buttonTextColorKey = "buttonTextColor"
+    case colorSchemeKey = "colorSchemeKey"
 }
 
 class ColorManager: ObservableObject {
@@ -73,6 +76,7 @@ class ColorManager: ObservableObject {
     @Published var secondaryTextColor: String = " "
     @Published var buttonTextColor: String = " "
     @Published var colorThemes: [String: String] = [:]
+    @Published var colorMode: String = " "
     public static let shared = ColorManager()
     init() {
         if let color = UserDefaults.standard.value(forKey: "color") as? [String: String] {
@@ -82,6 +86,7 @@ class ColorManager: ObservableObject {
         retrieve(key: .colorThemeKey)
         retrieve(key: .secondaryTextColorKey)
         retrieve(key: .buttonTextColorKey)
+        retrieve(key: .colorSchemeKey)
     }
     
     func saveColors() {
@@ -101,6 +106,8 @@ class ColorManager: ObservableObject {
             secondaryTextColor = getColorForKey(.secondaryTextColorKey)
         case .primaryTextColorKey:
             primaryTextColor = getColorForKey(.primaryTextColorKey)
+        case .colorSchemeKey:
+            colorMode = getColorSchemeForKey(.colorSchemeKey)
         }
     }
     
@@ -119,7 +126,7 @@ extension ColorManager {
         return Color(colorSelection)
     }
     
-    func getColorDarkWhite (colorScheme: ColorScheme) -> Color {
+    @MainActor func getColorDarkWhite (colorScheme: ColorScheme) -> Color {
         if colorSelection.isEmpty || colorSelection == " "{
             saveSystemDefault(colorScheme: colorScheme)
             return Color(colorSelection)
@@ -129,7 +136,7 @@ extension ColorManager {
             : Color(ColorThemeColors.white.rawValue)):
                             Color(colorSelection)
     }
-    func getColorSystemBackSecondaryBack(colorScheme: ColorScheme) -> Color {
+    @MainActor func getColorSystemBackSecondaryBack(colorScheme: ColorScheme) -> Color {
         if colorSelection.isEmpty || colorSelection == " "{
             saveSystemDefault(colorScheme: colorScheme)
             return Color(colorSelection)
@@ -156,14 +163,19 @@ extension ColorManager {
         return ColorThemeColors(rawValue:colorThemes[key.rawValue] ?? "") ?? .noColor
     }
     
-    func saveSystemDefault(colorScheme: ColorScheme) {
+    func getColorSchemeForKey(_ key: ColorKey) -> String {
+        let colorScheme: String = colorThemes[key.rawValue] == ".dark" ? ".dark" : ".light"
+        return colorScheme
+    }
+    
+    @MainActor func saveSystemDefault(colorScheme: ColorScheme) {
         setColor(.colorThemeKey, .systemBackground, colorScheme: colorScheme)
         setColor(.primaryTextColorKey, .black, .white, colorScheme: colorScheme)
         setColor(.secondaryTextColorKey, .lightModeSecondaryText, .darkModeSecondaryText, colorScheme:  colorScheme)
         setColor(.buttonTextColorKey, .lightModeButtonText, .darkModeButtonText, colorScheme: colorScheme)
     }
     
-    func setColor(_ key: ColorKey, _ lightMode: ColorThemeColors, _ darkMode : ColorThemeColors = .noColor, colorScheme: ColorScheme){
+    @MainActor func setColor(_ key: ColorKey, _ lightMode: ColorThemeColors, _ darkMode : ColorThemeColors = .noColor, colorScheme: ColorScheme){
         if darkMode == .noColor {
             colorThemes[key.rawValue] = lightMode.rawValue
         }
@@ -175,6 +187,7 @@ extension ColorManager {
         primaryTextColor = colorThemes[ColorKey.primaryTextColorKey.rawValue] ?? ""
         secondaryTextColor = colorThemes[ColorKey.secondaryTextColorKey.rawValue] ?? ""
         buttonTextColor = colorThemes[ColorKey.buttonTextColorKey.rawValue] ?? ""
+        colorMode = getColorSchemeForKey(ColorKey.colorSchemeKey)
         saveColors()
     }
 }
