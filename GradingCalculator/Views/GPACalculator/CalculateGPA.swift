@@ -140,13 +140,13 @@ struct CalculateGPA: View {
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
             if let gpa = users.last?.gpa {
-                calculatedGPA = String(format: "%.3f", gpa)
+                calculatedGPA = gpa == 0 ? "0.000" : String(format: "%.3f", gpa)
             }
             if let currentCompletedCredits = commGPAs.last?.completedCredits{
-                self.currentCredits = String(currentCompletedCredits)
+                self.currentCredits = currentCompletedCredits == 0 ? "" : String(currentCompletedCredits)
             }
             if let currentCompletedGradePoints = commGPAs.last?.completedGradePoints {
-                self.currentGradePoints = String(currentCompletedGradePoints)
+                self.currentGradePoints = currentCompletedGradePoints == 0 ? "" : String(currentCompletedGradePoints)
             }
         }
         .onChange(of: GPAs.count) { newValue in
