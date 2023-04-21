@@ -66,6 +66,6 @@ extension Course {
 
 extension Course : Identifiable, Comparable {
     public static func < (lhs: Course, rhs: Course) -> Bool {
-        return lhs.date ?? Date(timeIntervalSinceNow: 999999999) < rhs.date ?? Date(timeIntervalSinceNow: 99999999)
+        return lhs.date ?? Date(timeIntervalSinceNow: 999999999) > rhs.date ?? Date(timeIntervalSinceNow: 99999999)
     }
 }
