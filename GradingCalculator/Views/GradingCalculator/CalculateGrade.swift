@@ -36,9 +36,10 @@ struct CalculateGrade: View {
                             .frame(maxWidth: .infinity)
                     }
                     Button("Calculate Grade") {
-                        calculateGrade()
-                        if average == "" {
+                        if course.grades?.count == 0 {
                             showAlert.toggle()
+                        } else {
+                            calculateGrade()
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -76,6 +77,10 @@ struct CalculateGrade: View {
                 }
                 .onDelete { indices in
                     dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
+                    if course.grades?.count == 0 {
+                        average = "0.000"
+                        dataController.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
+                    }
                 }
             }
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
@@ -91,7 +96,7 @@ struct CalculateGrade: View {
                     }
                 }
                 ToolbarItem(placement: .bottomBar) {
-                    if grades.count > 1 {
+                    if grades.count > 0 {
                         EditButton()
                     }
                 }
