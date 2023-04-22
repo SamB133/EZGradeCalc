@@ -73,8 +73,7 @@ struct Settings: View {
                         .foregroundColor(Color(colorManager.secondaryTextColor))
                 }
             }
-            .background( colorManager.colorSelection == "systemBackground"
-            ? (colorScheme == .dark ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground)) : Color(colorManager.colorSelection).opacity(1))
+            .background( colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .navigationTitle("Settings")
         }
