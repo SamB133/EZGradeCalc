@@ -96,7 +96,7 @@ struct CalculateGrade: View {
                     }
                 }
                 ToolbarItem(placement: .bottomBar) {
-                    if grades.count > 0 {
+                    if  course.grades?.count ?? 0 > 0 {
                         EditButton()
                     }
                 }
