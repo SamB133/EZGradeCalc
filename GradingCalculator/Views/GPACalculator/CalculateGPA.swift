@@ -39,7 +39,7 @@ struct CalculateGPA: View {
                         textFieldIsFocused = false
                         if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
                             calculatedGPA = calculateGPA()
-                            if calculatedGPA == "" {
+                            if calculatedGPA == "0.000" {
                                 showAlert2.toggle()
                             }
                         } else {
@@ -162,7 +162,7 @@ struct CalculateGPA: View {
     }
     
     func calculateGPA() -> String {
-        guard GPAs.count > 0 else { return "" }
+        guard GPAs.count > 0 else { return "0.000" }
         var sumOfCredits = Int(currentCredits) ?? 0
         var gradePointsTotal = Double(currentGradePoints) ?? 0.0
         for GPA in GPAs {
