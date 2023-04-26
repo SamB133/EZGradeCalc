@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct Settings: View {
     
@@ -13,6 +14,7 @@ struct Settings: View {
     @State var primaryTextColor: String = " "
     @State var secondaryTextColor: String = " "
     @State var buttonTextColor: String = " "
+    @State private var isPresentContactUs = false
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var colorManager: ColorManager
     
@@ -72,6 +74,24 @@ struct Settings: View {
                     Text("Theme Selection")
                         .foregroundColor(Color(colorManager.secondaryTextColor))
                 }
+                Section {
+                    Button("Contact Us") {
+                        isPresentContactUs = true
+                    }
+                    .frame(maxWidth: .infinity)
+                    .sheet(isPresented: $isPresentContactUs) {
+                        NavigationStack {
+                            ContactUs(url: URL(string: "https://samb133.github.io/EZGradeCalc-SupportSite/")!)
+                                .ignoresSafeArea()
+                                .navigationTitle("Contact Us")
+                                .navigationBarTitleDisplayMode(.inline)
+                                .navigationBarItems(trailing: Button("Cancel") {
+                                    isPresentContactUs = false
+                                })
+                        }
+                    }
+                }
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
             }
             .background( colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
@@ -90,6 +110,19 @@ struct Settings: View {
 struct Settings_Previews: PreviewProvider {
     static var previews: some View {
         Settings(colorManager: ColorManager())
+    }
+}
+
+struct ContactUs: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
 }
 

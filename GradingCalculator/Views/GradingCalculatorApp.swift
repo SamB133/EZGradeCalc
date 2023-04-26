@@ -7,12 +7,29 @@
 
 import SwiftUI
 
-@main
-struct GradingCalculatorApp: App {
+
+struct TabItemData {
+    let image: String
+    let selectedImage: String
+    let title: String
+}
+
+@main struct GradingCalculatorApp: App {
     
     @StateObject private var dataController = DataManager()
     @StateObject private var colorManager = ColorManager()
     @Environment(\.scenePhase) var scenePhase
+    init() {
+        let colorManager = ColorManager.shared
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = UIBlurEffect(style: .prominent)
+        appearance.backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(0.1))
+        UIToolbar.appearance().barTintColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
+        UIToolbar.appearance().backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -37,8 +54,9 @@ struct GradingCalculatorApp: App {
                             Label("Settings", systemImage: "gear")
                         }
                         .environmentObject(colorManager)
-                }.toolbarBackground(Color(colorManager.colorSelection), for: .tabBar)
-                    .toolbar(.visible, for: .tabBar)
+                }
+                .toolbarBackground(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1), for: .tabBar)
+                .toolbar(.visible, for: .tabBar)
             }
             .preferredColorScheme(colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light)
         }

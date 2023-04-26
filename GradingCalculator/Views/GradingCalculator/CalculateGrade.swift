@@ -95,11 +95,6 @@ struct CalculateGrade: View {
                         Text("Add Grade")
                     }
                 }
-                ToolbarItem(placement: .bottomBar) {
-                    if  course.grades?.count ?? 0 > 0 {
-                        EditButton()
-                    }
-                }
             }
             .sheet(isPresented: $addGrade, onDismiss: {
             }) {

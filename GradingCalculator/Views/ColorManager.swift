@@ -78,6 +78,7 @@ class ColorManager: ObservableObject {
     @Published var colorThemes: [String: String] = [:]
     @Published var colorMode: String = " "
     public static let shared = ColorManager()
+    @Published var colorScheme:ColorScheme = .light
     init() {
         if let color = UserDefaults.standard.value(forKey: "color") as? [String: String] {
             colorThemes = color
@@ -136,6 +137,7 @@ extension ColorManager {
             : Color(ColorThemeColors.white.rawValue)):
                             Color(colorSelection)
     }
+    
     @MainActor func getColorSystemBackSecondaryBack(colorScheme: ColorScheme) -> Color {
         if colorSelection.isEmpty || colorSelection == " "{
             saveSystemDefault(colorScheme: colorScheme)

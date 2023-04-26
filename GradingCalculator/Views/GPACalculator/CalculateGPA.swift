@@ -23,7 +23,11 @@ struct CalculateGPA: View {
     @EnvironmentObject var colorManager: ColorManager
     @FocusState private var textFieldIsFocused: Bool
     init(colorManager: ColorManager) {
-        UIToolbar.appearance().barTintColor = UIColor(Color(colorManager.colorSelection))
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = UIBlurEffect(style: .prominent)
+        appearance.backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorScheme).opacity(0.1))
+        UIToolbar.appearance().barTintColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
+        UIToolbar.appearance().backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
     }
     
     var body: some View {
@@ -115,11 +119,6 @@ struct CalculateGPA: View {
                         textFieldIsFocused = false
                     } label: {
                         Text("Add Course")
-                    }
-                }
-                ToolbarItem(placement: .bottomBar) {
-                    if GPAs.count > 0 {
-                        EditButton()
                     }
                 }
                 ToolbarItemGroup(placement: .keyboard) {

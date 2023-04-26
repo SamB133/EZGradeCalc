@@ -16,6 +16,17 @@ struct ContentView: View {
     @EnvironmentObject var dataController: DataManager
     @EnvironmentObject var colorManager: ColorManager
     
+    init() {
+        let colorManager = ColorManager.shared
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = UIBlurEffect(style: .prominent)
+        appearance.backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(0.1))
+        UIToolbar.appearance().barTintColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
+        UIToolbar.appearance().backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some View {
         if courses.count == 0 {
             NavigationStack {
@@ -72,11 +83,6 @@ struct ContentView: View {
                             showAddCourse.toggle()
                         } label: {
                             Text("Add Course")
-                        }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        if courses.count > 0 {
-                            EditButton()
                         }
                     }
                 }
