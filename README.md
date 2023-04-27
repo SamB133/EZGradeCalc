@@ -8,3 +8,5 @@ EZGradeCalc is an iOS application made in SwiftUI. The app contains a grading ca
 EZGradeCalc is available for free on the [Apple App Store](https://www.google.com/?client=safari "EZGradeCalc on the Apple App Store").
 
 Any questions, comments, or suggestions are appreciated and can be sent through the [EZGradeCalc Contact Form](https://samb133.github.io/EZGradeCalc-SupportSite/ "EZGradeCalc Contact Form Website") or emailed to [EZGradeCalc@gmail.com](mailto:EZGradeCalc@gmail.com "Send an Email").
+
+[Privacy Policy](https://samb133.github.io/EZGradeCalc-SupportSite/PrivacyPolicy.html "EZGradeCalc Privacy Policy")
