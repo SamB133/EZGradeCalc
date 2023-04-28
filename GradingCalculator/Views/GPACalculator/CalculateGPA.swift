@@ -22,6 +22,7 @@ struct CalculateGPA: View {
     @FetchRequest(sortDescriptors: []) var commGPAs: FetchedResults<CommGPA>
     @EnvironmentObject var colorManager: ColorManager
     @FocusState private var textFieldIsFocused: Bool
+    @State var id: UUID?
     init(colorManager: ColorManager) {
         let appearance = UITabBarAppearance()
         appearance.backgroundEffect = UIBlurEffect(style: .prominent)
@@ -43,20 +44,24 @@ struct CalculateGPA: View {
                         textFieldIsFocused = false
                         if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
                             calculatedGPA = calculateGPA()
-                            if calculatedGPA == "0.000" {
-                                showAlert2.toggle()
+                            if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) && GPAs.count == 0) {
+                                calculatedGPA = calculateCurrentGPA()
+                            } else if calculatedGPA == "0.000" && (currentCredits.isEmpty && currentGradePoints.isEmpty) {
+                               showAlert = true
                             }
-                        } else {
-                            showAlert.toggle()
+                        }else {
+                            showAlert = true
                         }
                     }
                     .frame(maxWidth: .infinity)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
+                }
+                .alert(isPresented: $showAlert) {
+                    if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
+                        if calculatedGPA == "0.000" && (currentCredits.isEmpty && currentGradePoints.isEmpty) {
+                           return Alert(title: Text("Nothing to Calculate"), message: Text("Please add at least one course, and/or fill out the optional fields, in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
+                        }
                     }
-                    .alert(isPresented: $showAlert2) {
-                        Alert(title: Text("No Courses to Calculate"), message: Text("Please add at least one course in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
-                    }
+                    return Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
@@ -141,11 +146,11 @@ struct CalculateGPA: View {
             if let gpa = users.last?.gpa {
                 calculatedGPA = gpa == 0 ? "0.000" : String(format: "%.3f", gpa)
             }
-            if let currentCompletedCredits = commGPAs.last?.completedCredits{
-                self.currentCredits = currentCompletedCredits == 0 ? "" : String(currentCompletedCredits)
+            if let  currentCredits = UserDefaults.standard.string(forKey: "CurrentCredits") {
+                self.currentCredits = currentCredits
             }
-            if let currentCompletedGradePoints = commGPAs.last?.completedGradePoints {
-                self.currentGradePoints = currentCompletedGradePoints == 0 ? "" : String(currentCompletedGradePoints)
+            if let currentGradePoints = UserDefaults.standard.string(forKey: "CurrentGradePoints") {
+                self.currentGradePoints = currentGradePoints
             }
         }
         .onChange(of: GPAs.count) { newValue in
@@ -153,10 +158,10 @@ struct CalculateGPA: View {
             dataManager.saveGPA(gpa: Double(calculatedGPA) ?? 0.0)
         }
         .onChange(of: currentCredits) { newValue in
-            dataManager.saveCompletedCredits(gpas: commGPAs, completedCredits: Int16(currentCredits) ?? 0, completedGradePoints: Int16(currentGradePoints) ?? 0)
+            UserDefaults.standard.setValue(newValue, forKey: "CurrentCredits")
         }
         .onChange(of: currentGradePoints) { newValue in
-            dataManager.saveCompletedCredits(gpas: commGPAs, completedCredits: Int16(currentCredits) ?? 0, completedGradePoints: Int16(currentGradePoints) ?? 0)
+            UserDefaults.standard.setValue(newValue, forKey: "CurrentGradePoints")
         }
     }
     
@@ -168,6 +173,14 @@ struct CalculateGPA: View {
             gradePointsTotal += (GPA.grade * Double(GPA.credits))
             sumOfCredits += Int(GPA.credits)
         }
+        let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
+        dataManager.saveGPA(gpa: cumulativeGPA)
+        return String(format: "%.3f", cumulativeGPA)
+    }
+    
+    func calculateCurrentGPA() -> String {
+        let sumOfCredits = Int(currentCredits) ?? 0
+        let gradePointsTotal = Double(currentGradePoints) ?? 0.0
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         dataManager.saveGPA(gpa: cumulativeGPA)
         return String(format: "%.3f", cumulativeGPA)
