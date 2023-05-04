@@ -28,6 +28,9 @@ struct CalculateGrade: View {
     
     var body: some View {
         NavigationStack {
+            Text(course.name ?? "")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 20)
             List {
                 Section {
                     HStack {
@@ -83,7 +86,6 @@ struct CalculateGrade: View {
                     }
                 }
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
@@ -105,6 +107,7 @@ struct CalculateGrade: View {
                 self.gradesArray.sort(by: >)
             }
         }
+        .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
             average = String(format: "%.3f", course.averageGrade)
