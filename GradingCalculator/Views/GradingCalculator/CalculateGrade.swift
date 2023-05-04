@@ -31,6 +31,7 @@ struct CalculateGrade: View {
             Text(course.name ?? "")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 20)
+                .padding(.bottom, -16)
             List {
                 Section {
                     HStack {
