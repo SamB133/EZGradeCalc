@@ -112,6 +112,7 @@ struct CalculateGrade: View {
         .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
+            calculateGrade()
             average = String(format: "%.3f", course.averageGrade)
         }
         .onChange(of: course.grades?.count) { newValue in
