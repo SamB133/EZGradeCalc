@@ -124,6 +124,7 @@ struct CalculateGPA: View {
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("GPA")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

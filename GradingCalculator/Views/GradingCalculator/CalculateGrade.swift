@@ -91,6 +91,7 @@ struct CalculateGrade: View {
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -121,8 +122,8 @@ struct CalculateGrade: View {
         }
     }
 
-    func calculateGrade()  {
-        guard course.grades?.count ?? 0 > 0 else { return  }
+    func calculateGrade() {
+        guard course.grades?.count ?? 0 > 0 else { return }
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
         var totalAverage = 0.0
