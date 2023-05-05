@@ -22,6 +22,8 @@ enum ColorThemeColors: String {
     case deepOrange = "DeepOrange"
     case mintGreen = "MintGreen"
     case maroon = "Maroon"
+    case lavender = "Lavender"
+    case flamingo = "Flamingo"
     case dark = ".dark"
     case light = ".light"
     case noColor
@@ -54,6 +56,10 @@ enum ColorThemeColors: String {
             self = .mintGreen
         case "Maroon":
             self = .maroon
+        case "Lavender":
+            self = .lavender
+        case "Flamingo":
+            self = .flamingo
 
         default:
             self = .noColor
