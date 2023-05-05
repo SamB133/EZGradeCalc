@@ -28,10 +28,6 @@ struct CalculateGrade: View {
     
     var body: some View {
         NavigationStack {
-            Text(course.name ?? "")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-                .padding(.bottom, -16)
             List {
                 Section {
                     HStack {
@@ -50,6 +46,8 @@ struct CalculateGrade: View {
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
                     }
+                } header: {
+                    Text(course.name ?? "")
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {
