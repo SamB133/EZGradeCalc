@@ -23,7 +23,7 @@ struct CalculateGrade: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
     @FetchRequest(sortDescriptors: [] ) var users: FetchedResults<User>
-    @EnvironmentObject var dataController: DataManager
+    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var colorManager: ColorManager
     
     var body: some View {
@@ -40,6 +40,7 @@ struct CalculateGrade: View {
                             showAlert.toggle()
                         } else {
                             calculateGrade()
+                            average = String(format: "%.3f", course.averageGrade)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -78,15 +79,16 @@ struct CalculateGrade: View {
                     .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 }
                 .onDelete { indices in
-                    dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
+                    dataManager.onDeleteGrades(at: indices, grades: course.gradeArray)
                     if course.grades?.count == 0 {
                         average = "0.000"
-                        dataController.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
+                        dataManager.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
                     }
                 }
             }
             .refreshable {
                 calculateGrade()
+                average = String(format: "%.3f", course.averageGrade)
             }
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
@@ -132,8 +134,7 @@ struct CalculateGrade: View {
             sumOfWeights += grade.weight
         }
         totalAverage = sumOfTotal / sumOfWeights
-        dataController.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
-        average = String(format: "%.3f", totalAverage)
+        dataManager.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
     }
 }
 
