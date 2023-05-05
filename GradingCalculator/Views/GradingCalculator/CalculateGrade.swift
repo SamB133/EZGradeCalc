@@ -85,6 +85,9 @@ struct CalculateGrade: View {
                     }
                 }
             }
+            .refreshable {
+                calculateGrade()
+            }
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")

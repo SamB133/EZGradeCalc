@@ -113,6 +113,14 @@ struct CalculateGPA: View {
                     textFieldIsFocused = false
                 }
             }
+            .refreshable {
+                if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
+                    calculatedGPA = calculateGPA()
+                    if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) && GPAs.count == 0) {
+                        calculatedGPA = calculateCurrentGPA()
+                    }
+                }
+            }
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
@@ -146,7 +154,7 @@ struct CalculateGPA: View {
             if let gpa = users.last?.gpa {
                 calculatedGPA = gpa == 0 ? "0.000" : String(format: "%.3f", gpa)
             }
-            if let  currentCredits = UserDefaults.standard.string(forKey: "CurrentCredits") {
+            if let currentCredits = UserDefaults.standard.string(forKey: "CurrentCredits") {
                 self.currentCredits = currentCredits
             }
             if let currentGradePoints = UserDefaults.standard.string(forKey: "CurrentGradePoints") {
