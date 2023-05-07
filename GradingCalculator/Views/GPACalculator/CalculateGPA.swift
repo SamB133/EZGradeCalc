@@ -111,6 +111,8 @@ struct CalculateGPA: View {
                 .onDelete { indices in
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
+                    calculatedGPA = calculateGPA()
+                    UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
                 }
             }
             .refreshable {
@@ -152,9 +154,8 @@ struct CalculateGPA: View {
         }
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
-            if let gpa = users.last?.gpa {
-                calculatedGPA = gpa == 0 ? "0.000" : String(format: "%.3f", gpa)
-            }
+            _ = calculateGPA()
+            calculatedGPA = UserDefaults.standard.string(forKey: "gpa") ?? ""
             if let currentCredits = UserDefaults.standard.string(forKey: "CurrentCredits") {
                 self.currentCredits = currentCredits
             }
@@ -164,13 +165,17 @@ struct CalculateGPA: View {
         }
         .onChange(of: GPAs.count) { newValue in
             calculatedGPA = calculateGPA()
-            dataManager.saveGPA(gpa: Double(calculatedGPA) ?? 0.0)
+            UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
         }
         .onChange(of: currentCredits) { newValue in
             UserDefaults.standard.setValue(newValue, forKey: "CurrentCredits")
         }
         .onChange(of: currentGradePoints) { newValue in
             UserDefaults.standard.setValue(newValue, forKey: "CurrentGradePoints")
+        }
+        .onDisappear{
+            calculatedGPA = calculateGPA()
+            UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
         }
     }
     
@@ -184,6 +189,7 @@ struct CalculateGPA: View {
         }
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         dataManager.saveGPA(gpa: cumulativeGPA)
+        UserDefaults.standard.setValue(String(format: "%.3f", cumulativeGPA), forKey: "gpa")
         return String(format: "%.3f", cumulativeGPA)
     }
     
@@ -192,6 +198,7 @@ struct CalculateGPA: View {
         let gradePointsTotal = Double(currentGradePoints) ?? 0.0
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         dataManager.saveGPA(gpa: cumulativeGPA)
+        UserDefaults.standard.setValue(String(format: "%.3f", cumulativeGPA), forKey: "gpa")
         return String(format: "%.3f", cumulativeGPA)
     }
 }
