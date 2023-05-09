@@ -40,7 +40,6 @@ struct CalculateGrade: View {
                             showAlert.toggle()
                         } else {
                             calculateGrade()
-                            average = String(format: "%.3f", course.averageGrade)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -88,7 +87,6 @@ struct CalculateGrade: View {
             }
             .refreshable {
                 calculateGrade()
-                average = String(format: "%.3f", course.averageGrade)
             }
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
@@ -116,11 +114,9 @@ struct CalculateGrade: View {
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
             calculateGrade()
-            average = String(format: "%.3f", course.averageGrade)
         }
         .onChange(of: course.grades?.count) { newValue in
             calculateGrade()
-            average = String(format: "%.3f", course.averageGrade)
         }
     }
 
@@ -135,6 +131,7 @@ struct CalculateGrade: View {
         }
         totalAverage = sumOfTotal / sumOfWeights
         dataManager.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
+        average = String(format: "%.3f", course.averageGrade)
     }
 }
 
