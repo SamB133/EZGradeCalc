@@ -42,28 +42,6 @@ struct CalculateGPA: View {
                         Text(calculatedGPA)
                             .frame(maxWidth: .infinity)
                     }
-                    Button("Calculate GPA") {
-                        textFieldIsFocused = false
-                        if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
-                            calculatedGPA = calculateGPA()
-                            if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) && GPAs.count == 0) {
-                                calculatedGPA = calculateCurrentGPA()
-                            } else if calculatedGPA == "0.000" && (currentCredits.isEmpty && currentGradePoints.isEmpty) {
-                               showAlert = true
-                            }
-                        }else {
-                            showAlert = true
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .alert(isPresented: $showAlert) {
-                    if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
-                        if calculatedGPA == "0.000" && (currentCredits.isEmpty && currentGradePoints.isEmpty) {
-                           return Alert(title: Text("Nothing to Calculate"), message: Text("Please add at least one course, and/or fill out the optional fields, in order to calculate your GPA."), dismissButton: .default(Text("Ok")))
-                        }
-                    }
-                    return Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 Section {
@@ -77,10 +55,25 @@ struct CalculateGPA: View {
                             .keyboardType(.numberPad)
                             .focused($textFieldIsFocused)
                     }
+                    Button("Apply Optional Fields Changes") {
+                        textFieldIsFocused = false
+                        if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
+                            calculatedGPA = calculateGPA()
+                            if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) && GPAs.count == 0) {
+                                calculatedGPA = calculateCurrentGPA()
+                            }
+                        } else {
+                            showAlert = true
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
                 } header: {
                     Text("Optional for Cumulative GPA")
                 } footer: {
-                    Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.")
+                    Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.\nAfter changes are made to the optional fields, press the \"Apply Optional Fields Changes\" button to apply the changes.")
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {

@@ -35,17 +35,6 @@ struct CalculateGrade: View {
                         Text(average)
                             .frame(maxWidth: .infinity)
                     }
-                    Button("Calculate Grade") {
-                        if course.grades?.count == 0 {
-                            showAlert.toggle()
-                        } else {
-                            calculateGrade()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
-                    }
                 } header: {
                     Text(course.name ?? "")
                 }
