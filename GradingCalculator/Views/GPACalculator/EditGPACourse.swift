@@ -19,6 +19,8 @@ struct EditGPACourse: View {
     @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var colorManager: ColorManager
     @FocusState private var textFieldIsFocused: Bool
+    @Binding var showView: Bool
+    var closure:((Bool)-> Void)?
     
     var body: some View {
         NavigationStack {
@@ -69,7 +71,9 @@ struct EditGPACourse: View {
                                 gpa.credits = Int16(credits) ?? 0
                             }
                             dataManager.save()
-                            dismiss()
+                            showView = true
+                            dismiss.callAsFunction()
+                            closure?(showView)
                         } else {
                             showAlert.toggle()
                         }

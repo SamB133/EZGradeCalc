@@ -23,6 +23,8 @@ struct CalculateGPA: View {
     @EnvironmentObject var colorManager: ColorManager
     @FocusState private var textFieldIsFocused: Bool
     @State var id: UUID?
+    @State var isShow = false
+    
     init(colorManager: ColorManager) {
         let appearance = UITabBarAppearance()
         appearance.backgroundEffect = UIBlurEffect(style: .prominent)
@@ -95,7 +97,16 @@ struct CalculateGPA: View {
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 ForEach (GPAs, id: \.id) { gpaCourse in
                     NavigationLink {
-                        EditGPACourse(gpa: gpaCourse).environmentObject(dataManager)
+                        EditGPACourse(gpa: gpaCourse, showView: $isShow, closure: { value in
+                            if value {
+                                if ((!currentCredits.isEmpty && currentGradePoints.isEmpty) || (currentCredits.isEmpty && !currentGradePoints.isEmpty)) {
+                                    currentCredits = ""
+                                    currentGradePoints = ""
+                                }
+                                calculatedGPA = calculateGPA()
+                            }
+                        })
+                        .environmentObject(dataManager)
                     } label: {
                         HStack {
                             Text(gpaCourse.name ?? "")
@@ -109,6 +120,10 @@ struct CalculateGPA: View {
                     .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 }
                 .onDelete { indices in
+                    if ((!currentCredits.isEmpty && currentGradePoints.isEmpty) || (currentCredits.isEmpty && !currentGradePoints.isEmpty)) {
+                        currentCredits = ""
+                        currentGradePoints = ""
+                    }
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
                     calculatedGPA = calculateGPA()
@@ -121,7 +136,12 @@ struct CalculateGPA: View {
                     if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) && GPAs.count == 0) {
                         calculatedGPA = calculateCurrentGPA()
                     }
+                } else {
+                    showAlert = true
                 }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
             }
             .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
@@ -131,6 +151,10 @@ struct CalculateGPA: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
+                        if ((!currentCredits.isEmpty && currentGradePoints.isEmpty) || (currentCredits.isEmpty && !currentGradePoints.isEmpty)) {
+                            currentCredits = ""
+                            currentGradePoints = ""
+                        }
                         addGPACourse.toggle()
                         textFieldIsFocused = false
                     } label: {
