@@ -23,7 +23,7 @@ struct CalculateGrade: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
     @FetchRequest(sortDescriptors: [SortDescriptor(\Course.order, order: .reverse), SortDescriptor(\Course.date, order: .reverse)]) var courses: FetchedResults<Course>
     @FetchRequest(sortDescriptors: [] ) var users: FetchedResults<User>
-    @EnvironmentObject var dataController: DataManager
+    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var colorManager: ColorManager
     
     var body: some View {
@@ -35,17 +35,8 @@ struct CalculateGrade: View {
                         Text(average)
                             .frame(maxWidth: .infinity)
                     }
-                    Button("Calculate Grade") {
-                        if course.grades?.count == 0 {
-                            showAlert.toggle()
-                        } else {
-                            calculateGrade()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("No Grades to Calculate"), message: Text("Please add at least one grade in order to calculate your average grade."), dismissButton: .default(Text("Ok")))
-                    }
+                } header: {
+                    Text(course.name ?? "")
                 }
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {
@@ -76,17 +67,20 @@ struct CalculateGrade: View {
                     .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 }
                 .onDelete { indices in
-                    dataController.onDeleteGrades(at: indices, grades: course.gradeArray)
+                    dataManager.onDeleteGrades(at: indices, grades: course.gradeArray)
                     if course.grades?.count == 0 {
                         average = "0.000"
-                        dataController.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
+                        dataManager.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
                     }
                 }
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
+            .refreshable {
+                calculateGrade()
+            }
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -105,18 +99,18 @@ struct CalculateGrade: View {
                 self.gradesArray.sort(by: >)
             }
         }
+        .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
-            average = String(format: "%.3f", course.averageGrade)
+            calculateGrade()
         }
         .onChange(of: course.grades?.count) { newValue in
             calculateGrade()
-            average = String(format: "%.3f", course.averageGrade)
         }
     }
 
-    func calculateGrade()  {
-        guard course.grades?.count ?? 0 > 0 else { return  }
+    func calculateGrade() {
+        guard course.grades?.count ?? 0 > 0 else { return }
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
         var totalAverage = 0.0
@@ -125,8 +119,8 @@ struct CalculateGrade: View {
             sumOfWeights += grade.weight
         }
         totalAverage = sumOfTotal / sumOfWeights
-        dataController.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
-        average = String(format: "%.3f", totalAverage)
+        dataManager.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
+        average = String(format: "%.3f", course.averageGrade)
     }
 }
 

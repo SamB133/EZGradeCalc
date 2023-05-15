@@ -70,6 +70,22 @@ struct Settings: View {
                             .foregroundColor(Color(ColorThemeColors.black.rawValue))
                     }
                     .listRowBackground(Color("DeepOrange"))
+                    Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
+                        colorManager.setColor(.colorThemeKey, .lavender, colorScheme: colorScheme)
+                    } label: {
+                        Text("Lavender")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
+                    }
+                    .listRowBackground(Color("Lavender"))
+                    Button {
+                        colorManager.setColor(.colorSchemeKey, .light, colorScheme: colorScheme)
+                        colorManager.setColor(.colorThemeKey, .flamingo, colorScheme: colorScheme)
+                    } label: {
+                        Text("Flamingo")
+                            .foregroundColor(Color(ColorThemeColors.black.rawValue))
+                    }
+                    .listRowBackground(Color("Flamingo"))
                 } header: {
                     Text("Theme Selection")
                         .foregroundColor(Color(colorManager.secondaryTextColor))

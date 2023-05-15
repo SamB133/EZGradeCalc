@@ -91,7 +91,7 @@ struct AddCourse: View {
                 print(newValue)
             }
             .onAppear {
-                for i in Date().addYear()..<Date().addYear(11) {
+                for i in Date().addYear(-10)..<Date().addYear(11) {
                     years.append(i)
                 }
                 self.yearsCount = years.count
