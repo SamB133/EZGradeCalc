@@ -16,17 +16,6 @@ struct ContentView: View {
     @EnvironmentObject var dataController: DataManager
     @EnvironmentObject var colorManager: ColorManager
     
-    init() {
-        let colorManager = ColorManager.shared
-        let appearance = UITabBarAppearance()
-        appearance.backgroundEffect = UIBlurEffect(style: .prominent)
-        appearance.backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(0.1))
-        UIToolbar.appearance().barTintColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
-        UIToolbar.appearance().backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
-    }
-    
     var body: some View {
         if courses.count == 0 {
             NavigationStack {
@@ -37,10 +26,10 @@ struct ContentView: View {
                         }
                         .frame(maxWidth: .infinity)
                     }
-                    .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                    .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 }
-                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
                 .scrollContentBackground(.hidden)
+                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
                 .listStyle(.insetGrouped)
                 .navigationBarTitle("Courses")
             }
@@ -73,8 +62,8 @@ struct ContentView: View {
                         dataController.moveItem(at: set, destination: destinaton, courses: courses)
                     }
                 }
-                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
                 .scrollContentBackground(.hidden)
+                .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
                 .listStyle(.insetGrouped)
                 .navigationBarTitle("Courses")
                 .toolbar {

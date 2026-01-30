@@ -32,7 +32,7 @@ struct AddGrade: View {
                     Text("Grade Title")
                 }
                 .scrollContentBackground(.hidden)
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("Grade (%)", text: $grade)
                         .keyboardType(.decimalPad)
@@ -40,7 +40,7 @@ struct AddGrade: View {
                 } header: {
                     Text("Grade (%)")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("Weight (%)", text: $weight)
                         .keyboardType(.decimalPad)
@@ -48,7 +48,7 @@ struct AddGrade: View {
                 } header: {
                     Text("Weight (%)")
                 }
-                .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     Button("Add Grade") {
                         textFieldIsFocused = false
@@ -64,10 +64,10 @@ struct AddGrade: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationBarTitle(Text("Add Grade"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()

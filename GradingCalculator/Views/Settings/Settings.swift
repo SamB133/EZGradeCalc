@@ -107,16 +107,16 @@ struct Settings: View {
                         }
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
             }
-            .background( colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationTitle("Settings")
         }
         .onAppear {
             colorManager.colorSelection =  colorManager.getColorForKey(.colorThemeKey)
         }
-        .onChange(of: colorSelection) { newValue in
+        .onChange(of: colorSelection) { oldValue, newValue in
             colorManager.setColor(.colorThemeKey, .init(rawValue: newValue) ?? .noColor, colorScheme: colorScheme)
             colorManager.saveColors()
         }

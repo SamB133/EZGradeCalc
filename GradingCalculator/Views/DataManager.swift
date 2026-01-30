@@ -65,16 +65,7 @@ class DataManager: ObservableObject {
         gpa.completedGradePoints = completedGradePoints
         save()
     }
-    
-    func editGrade(name:String, grade: Double, editGrade: Grade, weight: Double, courseBelongTo: Course, currentGrade: Grade) {
-        let viewContext = Grade(context: container.viewContext)
-        viewContext.id = UUID()
-        viewContext.name = name
-        viewContext.grade = grade
-        viewContext.weight = weight
-        viewContext.date = Date()
-    }
-    
+
     func addGPA(name: String, grade: Double, credits: Int) {
         let viewContext = GPA(context: container.viewContext)
         viewContext.id = UUID()

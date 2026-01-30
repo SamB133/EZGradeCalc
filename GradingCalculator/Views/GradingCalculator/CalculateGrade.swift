@@ -38,7 +38,7 @@ struct CalculateGrade: View {
                 } header: {
                     Text(course.name ?? "")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -53,7 +53,9 @@ struct CalculateGrade: View {
                 .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 ForEach (course.gradeArray, id: \.id) { grade in
                     NavigationLink {
-                        EditGrade(course: course, currentGrade: grade)
+                        EditGrade(course: course, currentGrade: grade, onSave: {
+                            calculateGrade()
+                        })
                     } label: {
                         HStack {
                             Text(grade.name ?? "No Name")
@@ -70,7 +72,9 @@ struct CalculateGrade: View {
                     dataManager.onDeleteGrades(at: indices, grades: course.gradeArray)
                     if course.grades?.count == 0 {
                         average = "0.000"
-                        dataManager.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses , course: course)
+                        dataManager.saveGrade(averageGrade: 0.000, gradeArray: gradesArray, courses: courses, course: course)
+                    } else {
+                        calculateGrade()
                     }
                 }
             }
@@ -78,6 +82,7 @@ struct CalculateGrade: View {
                 calculateGrade()
             }
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .listStyle(.insetGrouped)
             .navigationBarTitle("Grades")
             .navigationBarTitleDisplayMode(.inline)
@@ -99,27 +104,29 @@ struct CalculateGrade: View {
                 self.gradesArray.sort(by: >)
             }
         }
-        .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
             calculateGrade()
         }
-        .onChange(of: course.grades?.count) { newValue in
+        .onChange(of: course.grades?.count) {
             calculateGrade()
         }
     }
 
     func calculateGrade() {
-        guard course.grades?.count ?? 0 > 0 else { return }
+        guard course.grades?.count ?? 0 > 0 else {
+            average = "0.000"
+            dataManager.saveGrade(averageGrade: 0.0, gradeArray: [], courses: courses, course: course)
+            return
+        }
         var sumOfTotal = 0.0
         var sumOfWeights = 0.0
-        var totalAverage = 0.0
         for grade in course.gradeArray {
             sumOfTotal += grade.grade * grade.weight
             sumOfWeights += grade.weight
         }
-        totalAverage = sumOfTotal / sumOfWeights
-        dataManager.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses , course: course)
+        let totalAverage = sumOfTotal / sumOfWeights
+        dataManager.saveGrade(averageGrade: totalAverage, gradeArray: gradesArray, courses: courses, course: course)
         average = String(format: "%.3f", course.averageGrade)
     }
 }

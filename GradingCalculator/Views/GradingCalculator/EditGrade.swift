@@ -13,13 +13,14 @@ enum gradeType {
 }
 
 struct EditGrade: View {
-    
+
     @State var course: Course
     @State var currentGrade: Grade
     @State var title = ""
     @State var grade = ""
     @State var weight = ""
     @State private var showAlert = false
+    var onSave: (() -> Void)?
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataManager: DataManager
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "order", ascending: true)]) var grades: FetchedResults<Grade>
@@ -40,7 +41,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade Title")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("", text: $grade)
                         .keyboardType(.decimalPad)
@@ -51,7 +52,7 @@ struct EditGrade: View {
                 } header: {
                     Text("Grade (%)")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("", text: $weight)
                         .keyboardType(.decimalPad)
@@ -62,33 +63,23 @@ struct EditGrade: View {
                 } header: {
                     Text("Weight (%)")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     Button("Submit Changes") {
                         textFieldIsFocused = false
                         if !title.isEmpty || !grade.isEmpty || !weight.isEmpty {
-                            var gradeIndex = 0
-                            for i in 0..<course.gradeArray.count {
-                                if course.gradeArray[i].id == currentGrade.id {
-                                    gradeIndex = i
-                                }
+                            if !title.isEmpty {
+                                currentGrade.name = title
                             }
-                            var myArray = course.grades?.array as? [Grade]
-                                if !title.isEmpty {
-                                    currentGrade.name = title
-                                }
-                                if !self.grade.isEmpty {
-                                   currentGrade.grade = Double(self.grade) ?? 0.0
-                                }
-                                if !weight.isEmpty {
-                                    currentGrade.weight = Double(self.weight) ?? 0.0
-                                }
-                            myArray?[gradeIndex] = currentGrade
-                            for grade in (course.grades?.array as? [Grade])! {
-                                course.addToGrades(grade)
+                            if !self.grade.isEmpty {
+                                currentGrade.grade = Double(self.grade) ?? 0.0
                             }
-                                dataManager.save()
-                                dismiss()
+                            if !weight.isEmpty {
+                                currentGrade.weight = Double(self.weight) ?? 0.0
+                            }
+                            dataManager.save()
+                            onSave?()
+                            dismiss()
                         } else {
                             showAlert.toggle()
                         }
@@ -98,10 +89,10 @@ struct EditGrade: View {
                         Alert(title: Text("No Changes"), message: Text("No changes have been made."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationBarTitle(Text("Edit Grade"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()

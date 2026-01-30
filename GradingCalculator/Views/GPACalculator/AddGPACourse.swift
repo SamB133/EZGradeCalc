@@ -28,7 +28,7 @@ struct AddGPACourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("Grade Point (on 4.0 scale)", text: $grade)
                         .keyboardType(.decimalPad)
@@ -36,7 +36,7 @@ struct AddGPACourse: View {
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("Number of credits for course", text: $credits)
                         .keyboardType(.numberPad)
@@ -44,7 +44,7 @@ struct AddGPACourse: View {
                 } header: {
                     Text("Number of credits for course")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     Button("Add Course") {
                         textFieldIsFocused = false
@@ -60,10 +60,10 @@ struct AddGPACourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationBarTitle(Text("Add Course"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()

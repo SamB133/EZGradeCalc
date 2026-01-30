@@ -32,7 +32,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     Picker("Semester", selection: $selectedSemester) {
                         ForEach(semesters, id: \.self) {
@@ -43,7 +43,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Semester")
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
                 Section {
                     Picker("Year", selection: $selectedYear) {
                         ForEach(years, id: \.self) {
@@ -54,7 +54,7 @@ struct AddCourse: View {
                 } header: {
                     Text("Year")
                 }
-                .listRowBackground( colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
                 Section {
                     Button("Add Course") {
                         textFieldIsFocused = false
@@ -70,10 +70,10 @@ struct AddCourse: View {
                         Alert(title: Text("Missing Information"), message: Text("Please insert the missing information and try again."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getSecondaryColor(colorScheme: colorScheme).glassEffect())
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationBarTitle(Text("Add Course"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
@@ -86,7 +86,7 @@ struct AddCourse: View {
                     }
                 }
             }
-            .onChange(of: selectedYear) { newValue in
+            .onChange(of: selectedYear) { oldValue, newValue in
                 self.selectedYear = newValue
                 print(newValue)
             }
@@ -98,7 +98,7 @@ struct AddCourse: View {
             }
         }
         .onAppear {
-            colorManager.colorSelection =  colorManager.getColorForKey(.colorThemeKey)
+            colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
         }
     }
 }

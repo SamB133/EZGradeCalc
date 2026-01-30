@@ -25,14 +25,8 @@ struct CalculateGPA: View {
     @State var id: UUID?
     @State var isShow = false
     
-    init(colorManager: ColorManager) {
-        let appearance = UITabBarAppearance()
-        appearance.backgroundEffect = UIBlurEffect(style: .prominent)
-        appearance.backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorScheme).opacity(0.1))
-        UIToolbar.appearance().barTintColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
-        UIToolbar.appearance().backgroundColor = UIColor(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorManager.colorMode == ColorThemeColors.dark.rawValue ? .dark : .light).opacity(1))
-    }
-    
+    init(colorManager: ColorManager) {}
+
     var body: some View {
         NavigationStack {
             List {
@@ -43,18 +37,14 @@ struct CalculateGPA: View {
                             .frame(maxWidth: .infinity)
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
-                    Section {
-                        TextField("Current Completed Credits", text: $currentCredits)
-                            .keyboardType(.numberPad)
-                            .focused($textFieldIsFocused)
-                    }
-                    Section {
-                        TextField("Completed Grade Points Total", text: $currentGradePoints)
-                            .keyboardType(.numberPad)
-                            .focused($textFieldIsFocused)
-                    }
+                    TextField("Current Completed Credits", text: $currentCredits)
+                        .keyboardType(.numberPad)
+                        .focused($textFieldIsFocused)
+                    TextField("Completed Grade Points Total", text: $currentGradePoints)
+                        .keyboardType(.numberPad)
+                        .focused($textFieldIsFocused)
                     Button("Apply Optional Fields Changes") {
                         textFieldIsFocused = false
                         if ((!currentCredits.isEmpty && !currentGradePoints.isEmpty) || (currentCredits.isEmpty && currentGradePoints.isEmpty)) {
@@ -72,10 +62,10 @@ struct CalculateGPA: View {
                 } footer: {
                     Text("Fill out this section only if you want to calculate your overall cumulative GPA. Otherwise, leave blank to calculate only your semester GPA.\nAfter changes are made to the optional fields, press the \"Apply Optional Fields Changes\" button to apply the changes.")
                 }
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 .alert(isPresented: $showAlert) {
                     Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
                 HStack {
                     Text("Title")
                         .font(.system(size: 12))
@@ -120,7 +110,6 @@ struct CalculateGPA: View {
                     dataManager.onDelete(at: indices, courses: GPAs)
                     textFieldIsFocused = false
                     calculatedGPA = calculateGPA()
-                    UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
                 }
             }
             .refreshable {
@@ -136,8 +125,8 @@ struct CalculateGPA: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Missing Information"), message: Text("You have filled out only one of the optional fields. Please either have both fields filled out, or have both fields empty."), dismissButton: .default(Text("Ok")))
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .listStyle(.insetGrouped)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("GPA")
@@ -161,8 +150,6 @@ struct CalculateGPA: View {
                     }
                 }
             }
-            .toolbar(.visible, for: .automatic)
-            .toolbarBackground(Color(colorManager.colorSelection), for: .automatic)
             .sheet(isPresented: $addGPACourse, onDismiss: {
                 textFieldIsFocused = false
             }) {
@@ -171,28 +158,22 @@ struct CalculateGPA: View {
         }
         .onAppear {
             colorManager.colorSelection = colorManager.getColorForKey(.colorThemeKey)
-            _ = calculateGPA()
-            calculatedGPA = UserDefaults.standard.string(forKey: "gpa") ?? ""
             if let currentCredits = UserDefaults.standard.string(forKey: "CurrentCredits") {
                 self.currentCredits = currentCredits
             }
             if let currentGradePoints = UserDefaults.standard.string(forKey: "CurrentGradePoints") {
                 self.currentGradePoints = currentGradePoints
             }
-        }
-        .onChange(of: GPAs.count) { newValue in
             calculatedGPA = calculateGPA()
-            UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
         }
-        .onChange(of: currentCredits) { newValue in
+        .onChange(of: GPAs.count) {
+            calculatedGPA = calculateGPA()
+        }
+        .onChange(of: currentCredits) { oldValue, newValue in
             UserDefaults.standard.setValue(newValue, forKey: "CurrentCredits")
         }
-        .onChange(of: currentGradePoints) { newValue in
+        .onChange(of: currentGradePoints) { oldValue, newValue in
             UserDefaults.standard.setValue(newValue, forKey: "CurrentGradePoints")
-        }
-        .onDisappear{
-            calculatedGPA = calculateGPA()
-            UserDefaults.standard.setValue(calculatedGPA, forKey: "gpa")
         }
     }
     
@@ -206,16 +187,14 @@ struct CalculateGPA: View {
         }
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         dataManager.saveGPA(gpa: cumulativeGPA)
-        UserDefaults.standard.setValue(String(format: "%.3f", cumulativeGPA), forKey: "gpa")
         return String(format: "%.3f", cumulativeGPA)
     }
-    
+
     func calculateCurrentGPA() -> String {
         let sumOfCredits = Int(currentCredits) ?? 0
         let gradePointsTotal = Double(currentGradePoints) ?? 0.0
         let cumulativeGPA = gradePointsTotal / Double(sumOfCredits)
         dataManager.saveGPA(gpa: cumulativeGPA)
-        UserDefaults.standard.setValue(String(format: "%.3f", cumulativeGPA), forKey: "gpa")
         return String(format: "%.3f", cumulativeGPA)
     }
 }

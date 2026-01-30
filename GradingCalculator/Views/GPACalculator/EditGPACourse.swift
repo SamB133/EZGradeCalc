@@ -34,7 +34,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Course Title")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("", text: $grade)
                         .keyboardType(.decimalPad)
@@ -45,7 +45,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Grade Point (on 4.0 scale)")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     TextField("", text: $credits)
                         .keyboardType(.numberPad)
@@ -56,7 +56,7 @@ struct EditGPACourse: View {
                 } header: {
                     Text("Number of credits for course")
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
                 Section {
                     Button("Submit Changes") {
                         textFieldIsFocused = false
@@ -83,10 +83,10 @@ struct EditGPACourse: View {
                         Alert(title: Text("No Changes"), message: Text("No changes have been made."), dismissButton: .default(Text("Ok")))
                     }
                 }
-                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme))
+                .listRowBackground(colorManager.getColorDarkWhite(colorScheme: colorScheme).glassEffect())
             }
-            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme).opacity(1))
             .scrollContentBackground(.hidden)
+            .background(colorManager.getColorSystemBackSecondaryBack(colorScheme: colorScheme))
             .navigationBarTitle(Text("Edit GPA Course"))
             .navigationBarItems(trailing: Button("Cancel") {
                 dismiss()
@@ -105,7 +105,7 @@ struct EditGPACourse: View {
         }
     }
 }
-    
+
 //struct EditGPACourse_Previews: PreviewProvider {
 //    static var previews: some View {
 //        EditGPACourse()
